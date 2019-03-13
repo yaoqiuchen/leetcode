@@ -17,7 +17,7 @@ import java.util.Map;
  Output: True
  Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and sums up to 42.
  */
-public class Leetcode523 {
+public class M523 {
 
     /**
      * Pay attention to some edge cases like k=0

@@ -12,7 +12,7 @@ import java.util.Arrays;
  you should find the minimum number of moves to make all the washing machines have the same number of dresses.
  If it is not possible to do it, return -1.
  */
-public class Leetcode517 {
+public class M517 {
 
     /**
      * Step 1: sum elements in the array, and return -1 if the sum % len(array) is not 0
