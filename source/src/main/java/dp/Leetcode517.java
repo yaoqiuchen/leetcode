@@ -15,10 +15,10 @@ import java.util.Arrays;
 public class Leetcode517 {
 
     /**
-     * Step 1: sum elements in the array, and return -1 if the sum % array length is not 0
-     * Step 2: declare target = sum / array length.
+     * Step 1: sum elements in the array, and return -1 if the sum % len(array) is not 0
+     * Step 2: set target = sum / len(array)
      * Step 3: Declare parameter gap, Loop n in array, set gap = gap + n - target
-     * Step 4: The result is the max value of abs(gap) and m - target and the result itself.
+     * Step 4: The result is the max value of abs(gap) and n - target and the result itself.
      */
     public static int findMinMoves(int[] machines) {
         int sum = Arrays.stream(machines).sum();
