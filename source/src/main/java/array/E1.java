@@ -1,35 +1,27 @@
 package array;
 
 /**
- Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). n vertical lines
- are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis
- forms a container, such that the container contains the most water.
+ Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 
- Note: You may not slant the container and n is at least 2.
-
-
-
-
-
- The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water
- (blue section) the container can contain is 49.
-
-
+ You may assume that each input would have exactly one solution, and you may not use the same element twice.
 
  Example:
 
- Input: [1,8,6,2,5,4,8,3,7]
- Output: 49
+ Given nums = [2, 7, 11, 15], target = 9,
+
+ Because nums[0] + nums[1] = 2 + 7 = 9,
+ return [0, 1].
  */
 public class E1 {
 
-    public int maxArea(int[] height) {
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < height.length - 1; i++) {
-            for (int j = i+1; j < height.length; j++) {
-                max = Math.max(max, Math.min(height[i], height[j]) * (j-i));
+    public int[] twoSum(int[] nums, int target) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i+1; j < nums.length; j++) {
+                if (target == nums[i] + nums[j]) {
+                    return new int[] {i, j};
+                }
             }
         }
-        return max;
+        return new int[] {};
     }
 }
