@@ -32,22 +32,23 @@ public class M15 {
         int last = nums.length - 1, len = nums.length;
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
-        // will time if not initial the filter with correct init size and capacity
-        Set<Integer> filter = new HashSet<>(len, 1);
 
+        Integer filter = null;
         for (int i = 0; i <= last - 2; i++) {
-            if (filter.contains(nums[i])) continue;
-            filter.add(nums[i]);
+            if (filter != null && filter == nums[i]) {
+                continue;
+            }
 
+            filter = nums[i];
             int head = i + 1, tail = last;
             int target = -nums[i];
 
-            Set<Integer> filter2 = new HashSet<>(len, 1);
+            Integer filter2 = null;
             while (head < tail) {
                 int sum = nums[head] + nums[tail];
-                if (sum == target && !filter2.contains(nums[head])) {
+                if (sum == target && (filter2 == null || filter2 != nums[head])) {
                     res.add(Arrays.asList(nums[i], nums[head], nums[tail]));
-                    filter2.add(nums[head]);
+                    filter2 = nums[head];
                     tail--;
                     head++;
                     continue;
@@ -56,7 +57,6 @@ public class M15 {
                 else head++;
             }
         }
-
         return res;
     }
 }
