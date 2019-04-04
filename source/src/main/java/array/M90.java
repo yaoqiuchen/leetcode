@@ -37,9 +37,10 @@ public class M90 {
         LinkedList<List<Integer>> sameNums = new LinkedList<>();
         int val = Integer.MIN_VALUE;
         for (int i = 0; i < nums.length; i++) {
-            // 当前相同数字的最大节点数
+            // 从0到i所有数中，和nums[i]相同的节点集合
             List<Integer> node = new ArrayList<>();
             node.add(nums[i]);
+            // 如果是相同节点，累加到sameNums中
             if (sameNums.size() == 0 || nums[i] == val) {
                 if (!sameNums.isEmpty()) {
                     node.addAll(sameNums.getLast());
@@ -47,6 +48,7 @@ public class M90 {
                 val = nums[i];
                 sameNums.addLast(node);
             } else {
+                // 如果节点不相同，把sameNums与res中的元素做笛卡尔积
                 combine(sameNums, res);
                 sameNums.add(node);
                 val = nums[i];
