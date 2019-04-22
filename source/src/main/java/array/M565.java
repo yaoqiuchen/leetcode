@@ -32,30 +32,30 @@ public class M565 {
 
     public int arrayNesting(int[] nums) {
         int max = 0;
-        Map<Integer, Integer> count = new HashMap<>();
-
+        // dp[i]表示从数值i为起点，达到回路的长度
+        int[] dp = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
             Queue<Integer> queue = new LinkedList<>();
             int next = i, len = 0;
             while (true) {
                 int val = nums[next];
-                if (count.containsKey(val)) {
-                    len += count.get(val) - 1;
+                if (dp[val] > 0) {
+                    // dp大于0表示这个节点曾经被访问过，那么由于dp[i]是包含这个节点的长度，所以这次是再次访问，
+                    // 应该减去1
+                    len += dp[val] - 1;
                     break;
                 }
                 len++;
-                count.put(val, 1);
+                dp[val] = 1;
                 next = nums[next];
                 queue.add(val);
             }
             while (!queue.isEmpty()) {
                 int val = queue.poll();
-                count.put(val, len);
+                dp[val] = len--;
                 max = Math.max(max, len);
-                len--;
             }
         }
-
         return max;
     }
 
