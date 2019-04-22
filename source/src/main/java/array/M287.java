@@ -1,8 +1,6 @@
 package array;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  287. 寻找重复数
@@ -25,10 +23,10 @@ import java.util.Queue;
  数组中只有一个重复的数字，但它可能不止重复出现一次。
 
  */
-public class E287 {
+public class M287 {
 
     public static void main(String[] args) {
-        new E287().findDuplicate(new int[] {1,3,5,6});
+        new M287().findDuplicate(new int[] {1,3,5,6});
     }
 
     // 最优解法没想出来，借鉴别人答案
