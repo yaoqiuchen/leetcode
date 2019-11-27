@@ -37,4 +37,22 @@ public class M64 {
         }
         return dp[m-1][n-1];
     }
+
+    // 2019-11-27
+    public int minPathSum2(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] dp = new int[m][n];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int left = (j == 0) ? Integer.MAX_VALUE : dp[i][j-1];
+                int up = (i == 0) ? Integer.MAX_VALUE : dp[i-1][j];
+
+                dp[i][j] = (i == 0 && j == 0) ? 0 : Math.min(left, up);
+                dp[i][j] += grid[i][j];
+            }
+        }
+
+        return dp[m-1][n-1];
+    }
 }
