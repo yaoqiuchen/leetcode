@@ -33,7 +33,48 @@ public class M120 {
         new M120().minimumTotal(input);
     }
 
+    // 2019-12-03
     public int minimumTotal(List<List<Integer>> triangle) {
+        int result = 0;
+        int[] old = null;
+
+        for (int i = 0; i < triangle.size(); i++) {
+            List<Integer> line = triangle.get(i);
+            int[] dp = new int[i+1];
+            int min = Integer.MAX_VALUE;
+
+            for (int j = 0; j < line.size(); j++) {
+                if (old == null) {
+                    dp[j] = line.get(j);
+                } else {
+                    dp[j] = Math.min(
+                            old.length > j ? old[j] : Integer.MAX_VALUE,
+                            j-1>=0?old[j-1]:Integer.MAX_VALUE
+                    );
+                    dp[j] += line.get(j);
+                }
+                min = Math.min(min, dp[j]);
+            }
+            old = dp;
+            result = min;
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public int minimumTotal2(List<List<Integer>> triangle) {
         if (triangle.size() == 0) return 0;
 
         int result = triangle.get(0).get(0);
