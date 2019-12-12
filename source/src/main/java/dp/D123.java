@@ -29,10 +29,42 @@ package dp;
 public class D123 {
 
     public static void main(String[] args) {
-        new D123().maxProfit(new int[] {2,1,4});
+        new D123().maxProfit(new int[] {1,4,2,7});
     }
 
+
     public int maxProfit(int[] prices) {
+        int n = prices.length;
+        if (n == 0) {
+            return 0;
+        }
+
+        int[][] buy = new int[n][3];
+        int[][] sell = new int[n][3];
+
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            // 截止前一天只买一次 （如果i>0，前一天只买一次 vs 当天买）else
+            buy[i][1] = (i > 0) ? Math.max(buy[i-1][1], -prices[i]) : -prices[i];
+            // 截止前一天买2次
+            buy[i][2] = (i >= 2) ? Math.max(buy[i-1][2], sell[i-1][1] - prices[i]) : Integer.MIN_VALUE;
+
+            sell[i][1] = (i > 0) ? Math.max(sell[i-1][1], buy[i-1][1] + prices[i]) : 0;
+            sell[i][2] = (i > 2) ? Math.max(sell[i-1][2], buy[i-1][2] + prices[i]) : 0;
+
+            max = Math.max(max, Math.max(sell[i][1], sell[i][2]));
+        }
+
+        return max;
+    }
+
+
+
+
+
+
+
+    public int maxProfit2(int[] prices) {
         if (prices.length == 0) return 0;
 
         int buy[][] = new int[prices.length][2];
