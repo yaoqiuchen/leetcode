@@ -19,9 +19,36 @@ package dp;
 public class M152 {
 
     public static void main(String[] args) {
-        new M152().maxProduct(new int[] {2,1,4});
+        new M152().maxProduct2(new int[] {2,-5,-2,-4,3});
     }
 
+    public int maxProduct2(int[] nums) {
+        int len = nums.length;
+        int[] dp = new int[len];
+        dp[0] = nums[0];
+
+        int max = nums[0], min = nums[0], result = nums[0];
+        for (int i = 1; i < len; i++) {
+            int val = nums[i], tmp = max;
+            if (nums[i] > 0) {
+                max = Math.max(val, max * val);
+                min = Math.min(val, min * val);
+            } else if (val < 0) {
+                max = Math.max(val, min * val);
+                min = Math.min(val, tmp * nums[i]);
+            } else {
+                max = 0;
+                min = 0;
+            }
+            result = Math.max(result, max);
+        }
+
+        return result;
+    }
+
+
+
+    // 以前的解法
     public int maxProduct(int[] nums) {
         if (nums.length == 0) return 0;
         int min = 1, max = 1, res = Integer.MIN_VALUE;
