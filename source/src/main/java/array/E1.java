@@ -1,9 +1,13 @@
 package array;
 
-/**
- Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+import java.util.Arrays;
 
- You may assume that each input would have exactly one solution, and you may not use the same element twice.
+/**
+ Given an array of integers, return indices of the two numbers such that they add up to a specific
+ target.
+
+ You may assume that each input would have exactly one solution, and you may not use the same
+ element twice.
 
  Example:
 
@@ -13,6 +17,22 @@ package array;
  return [0, 1].
  */
 public class E1 {
+
+    // 2020/1/17
+    public int[] twoSum2(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            int val = nums[i];
+            for (int j = i+1; j < nums.length; j++) {
+                if (nums[j] == target - val) {
+                    return new int[] {i, j};
+                }
+            }
+        }
+        return null;
+    }
+
+
+
 
     public int[] twoSum(int[] nums, int target) {
         for (int i = 0; i < nums.length - 1; i++) {
