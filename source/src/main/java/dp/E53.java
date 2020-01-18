@@ -20,8 +20,29 @@ public class E53 {
         new E53().maxSubArray(new int[] {-2,1,-3,4,-1,2,1,-5,4});
     }
 
-    // a better solution
     public int maxSubArray(int[] nums) {
+        if (nums.length < 1) return 0;
+
+        // val是截止到上一个数(包含)，最大的连续子数组的和
+        int val = nums[0], res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            // 如果val小于0，那么就不用累加了
+            // 包含i的连续子数组的和最大为nums[i]
+            if (val <= 0) {
+                val = nums[i];
+            } else {
+                val += nums[i];
+            }
+            res = Math.max(res, val);
+        }
+
+        return res;
+    }
+
+
+
+    // a better solution
+    public int maxSubArray4(int[] nums) {
         if (nums.length <= 0) return 0;
 
         int sum = nums[0], max = nums[0];
