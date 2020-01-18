@@ -1,8 +1,6 @@
 package array;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  合并区间
@@ -23,11 +21,52 @@ import java.util.List;
 public class M56 {
 
     public static void main(String[] args) {
-        new M56().merge(null);
+        new M56().merge(new int[][] {{1,3}, {2, 6}});
     }
 
+
+
+    public int[][] merge(int[][] intervals) {
+        // 现根据第一个节点排序，再根据第二个节点排序
+        Arrays.sort(intervals, (a, b) -> {
+            return a[0]==b[0] ? a[1]-b[1] : a[0]-b[0];
+        });
+
+        Stack<Integer> tmp = new Stack<>();
+        for (int[] range : intervals) {
+            if (tmp.isEmpty()) {
+                tmp.push(range[0]);
+                tmp.push(range[1]);
+                continue;
+            }
+
+            int second = tmp.peek();
+            if (range[0] <= second) {
+                // range的首节点小于stack中的tail，要合并
+                tmp.pop();
+                tmp.push(Math.max(second, range[1]));
+            } else {
+                tmp.push(range[0]);
+                tmp.push(range[1]);
+            }
+        }
+
+        int[][] res = new int[tmp.size()/2][2];
+        for (int i = 0; i < res.length; i++) {
+            int high = tmp.pop();
+            int low = tmp.pop();
+            res[i] = new int[] {low, high};
+        }
+
+        return res;
+    }
+
+
+
+
+
     // 先按照start升序再end升序对数组进行排序，逐个合并即可
-    public List<Interval> merge(List<Interval> intervals) {
+    public List<Interval> merge2(List<Interval> intervals) {
         LinkedList<Interval> res = new LinkedList<>();
         intervals.sort((a, b) -> a.start == b.start ? a.end - b.end : a.start - b.start);
 
