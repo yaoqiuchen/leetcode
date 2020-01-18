@@ -24,6 +24,42 @@ import java.util.Arrays;
 public class M33 {
 
     public int search(int[] nums, int target) {
+        int l = 0, h = nums.length - 1;
+
+        while (l <= h) {
+            int mid = (l + h) / 2;
+            if (target == nums[mid]) return mid;
+            if (target == nums[l]) return l;
+            if (target == nums[h]) return h;
+
+            // 左边是排序的
+            if (nums[l] <= nums[mid]) {
+                // 如果范围落在左侧，那么就在左侧找
+                if (target > nums[l] && target < nums[mid]) {
+                    h = mid - 1;
+                } else {
+                    // 否则去右侧找
+                    l = mid + 1;
+                }
+            } else {
+                // 如果左侧是不排序的，那同样的方式在右侧找下
+                if (target > nums[mid] && target < nums[h]) {
+                    l = mid + 1;
+                } else {
+                    // 否则去右侧找
+                    h = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+
+
+
+
+
+    public int search2(int[] nums, int target) {
         int l = 0, r = nums.length - 1;
         while (l <= r) {
             int mid = (l+r) / 2;
