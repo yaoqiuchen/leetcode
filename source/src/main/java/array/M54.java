@@ -1,5 +1,6 @@
 package array;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,8 +32,51 @@ public class M54 {
         new M54().spiralOrder(new int[][] {{1,2,3}, {4,5,6}, {7,8,9}});
     }
 
-    // 使用常熟存储空间
+
+
+
     public List<Integer> spiralOrder(int[][] matrix) {
+        if (matrix.length == 0) return new ArrayList<>();
+
+        int m = matrix.length, n = matrix[0].length;
+        boolean[][] dp = new boolean[m][n];
+
+        int count = 0, direction = 0, i = 0, j = 0;
+        List<Integer> res = new ArrayList<>();
+        while (count < m * n) {
+            res.add(matrix[i][j]);
+            dp[i][j] = true;
+            count++;
+
+            int[] pos = nextPosition(i, j, direction);
+            int i1 = pos[0], j1 = pos[1];
+            if (i1 >= m || i1 < 0 || j1 >= n || j1 < 0 || dp[i1][j1]) {
+                // change direction;
+                direction = (direction == 3) ? 0 : direction+1;
+                pos = nextPosition(i, j, direction);
+            }
+
+            i = pos[0];
+            j = pos[1];
+        }
+        return res;
+    }
+
+    public int[] nextPosition(int i, int j, int direction) {
+        switch (direction) {
+            case 0: return new int[] {i, j+1};
+            case 1: return new int[] {i+1, j};
+            case 2: return new int[] {i, j-1};
+            case 3: return new int[] {i-1, j};
+        }
+        return new int[]{};
+    }
+
+
+
+
+    // 使用常熟存储空间
+    public List<Integer> spiralOrder2(int[][] matrix) {
         List<Integer> res = new LinkedList<>();
         if (matrix.length == 0) return res;
 
