@@ -12,12 +12,52 @@ import java.util.Arrays;
  以下是一些例子，输入位于左侧列，其相应输出位于右侧列。
  1,2,3 → 1,3,2
  3,2,1 → 1,2,3
- 1,1,5 → 1,5,1
+ 1,4,5,2 → 1,5,1
+ 1,2,1,5
+ 1, 1, 6, 2
  */
 public class M31 {
 
+    public static void main(String[] arg) {
 
-    public void nextPermutation(int[] nums) {
+    }
+
+    public static void nextPermutation(int[] nums) {
+        if (nums.length <= 1) return;
+
+        // 问题转化为，寻找紧邻的[a,b]，且a<b.
+        // 这样就表示，数组肯定可以被重排序
+        for (int i = nums.length-1; i>0; i--) {
+
+            // 前一个数字小于后一个数字
+            if (nums[i] > nums[i-1]) {
+                // 从后面找得到大于num[i-1]的最小数字
+                // 然后将其和num[i-1]对调，完成后对i-1后所有数字重排序
+                int min = nums[i], minIdx = i;
+                for (int j = i+1; j<nums.length; j++) {
+                    if (nums[j] > nums[i-1] && min > nums[j]) {
+                        minIdx = j;
+                        min = nums[j];
+                    }
+                }
+
+                int tmp = nums[i-1];
+                nums[i-1] = min;
+                nums[minIdx] = tmp;
+                Arrays.sort(nums, i, nums.length);
+                return;
+            }
+        }
+
+        // 没有满足的条件，说明当前数字已经是最大组合，直接重新排序
+        Arrays.sort(nums);
+    }
+
+
+
+
+
+    public void nextPermutation2(int[] nums) {
         if (nums.length <= 1) return;
 
         for (int i = nums.length - 2; i >= 0; i--) {
