@@ -29,7 +29,37 @@ public class D57 {
         input.add(new Interval(1, 3));
         input.add(new Interval(6, 9));
 
-        new D57().insert(input, new Interval(2,5));
+        new D57().insert(new int[][] {{1,3},{6,9}}, new int[] {2,5});
+    }
+
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        // 把两个数组合并成一个
+        int n = intervals.length;
+        int[][] arr = new int[n+1][2];
+        for (int i = 0; i < n; i++) {
+            arr[i] = intervals[i];
+        }
+        arr[n] = newInterval;
+        // 再按照先第一个数后第二个数的顺序，做个排序，然后问题就转化为合并区间了
+        Arrays.sort(arr, (a, b) -> {
+            return a[0] == b[0] ? a[1] - b[1] : a[0] - b[0];
+        });
+
+        int idx = 0;
+        for (int i = 1; i < arr.length; i++) {
+            int[] last = arr[idx];
+            int[] current = arr[i];
+
+            // 当前节点的第一个数字小于前一个节点的第二个数字，发生合并
+            if (current[0] <= last[1]) {
+                last[1] = Math.max(current[1], last[1]);
+            } else {
+                idx++;
+                arr[idx] = current;
+            }
+        }
+
+        return Arrays.copyOf(arr, idx + 1);
     }
 
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
