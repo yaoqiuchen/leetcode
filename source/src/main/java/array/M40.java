@@ -36,8 +36,52 @@ import java.util.List;
 public class M40 {
 
     public static void main(String[] args) {
-        new M40().combinationSum2(new int[] { 1,1,2,5,6,7,10}, 8);
+        new M40().combinationSum(new int[] { 2,2}, 4);
     }
+
+
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        LinkedList<Integer> tmp = new LinkedList<>();
+
+        Arrays.sort(candidates);
+        DFS(candidates, target, 0, tmp, res);
+        return res;
+    }
+
+    // 返回true/false表示是否已经完成了所有的组合
+    public boolean DFS(int[] candidates, int target, int start, LinkedList<Integer> tmp, List<List<Integer>> res) {
+        if (target == 0) {
+            res.add(new ArrayList<>(tmp));
+            return true;
+        }
+
+        int n = candidates.length;
+        if (start >= n || target < 0) {
+            return false;
+        }
+
+        boolean hit = false;
+        for (int i = start; i < n; i++) {
+            // 如果已经完成了所有组合（hit=true），那表明以当前数字开头的组合都已经找出来了
+            // 因此应该跳过所有重复的数字
+            if (hit && candidates[i] == candidates[i-1]) {
+                continue;
+            }
+            tmp.addLast(candidates[i]);
+            if (DFS(candidates, target - candidates[i], i+1, tmp, res)) {
+                hit = true;
+            }
+            tmp.removeLast();
+        }
+        return hit;
+    }
+
+
+
+
+
 
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
