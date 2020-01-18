@@ -34,18 +34,51 @@ import java.util.List;
  */
 public class M39 {
 
+
     public static void main(String[] args) {
-        new M39().combinationSum(new int[] {2,3,6,7}, 9);
+        new M39().combinationSum(new int[] {2,3,6,7}, 7);
     }
+
+
+
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         Arrays.sort(candidates);
         List<List<Integer>> res = new ArrayList<>();
         LinkedList<Integer> tmp = new LinkedList<>();
-        DFS(candidates, target, 0, res, tmp);
+        DFS(candidates, 0, target, res, tmp);
+
         return res;
     }
 
-    public void DFS(int[] nums, int target, int start, List<List<Integer>> res, LinkedList<Integer> tmp) {
+    public void DFS(int[] candidates, int start, int target, List<List<Integer>> res, LinkedList<Integer> tmp ) {
+        if (target == 0) {
+            res.add(new ArrayList<>(tmp));
+            return;
+        }
+
+        if (start >= candidates.length || candidates[start] > target) {
+            return;
+        }
+
+        for (int i = start; i < candidates.length && candidates[i]<=target; i++) {
+            tmp.addLast(candidates[i]);
+            DFS(candidates, i, target-candidates[i], res, tmp);
+            tmp.removeLast();
+        }
+    }
+
+
+
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> res = new ArrayList<>();
+        LinkedList<Integer> tmp = new LinkedList<>();
+        DFS2(candidates, target, 0, res, tmp);
+        return res;
+    }
+
+    public void DFS2(int[] nums, int target, int start, List<List<Integer>> res, LinkedList<Integer> tmp) {
         if (target == 0) {
             res.add(new ArrayList<Integer>(tmp));
             return;
@@ -56,7 +89,7 @@ public class M39 {
 
         for (int i = start; i < nums.length && nums[i] <= target; i++) {
             tmp.addLast(nums[i]);
-            DFS(nums, target - nums[i], i, res, tmp);
+            DFS2(nums, target - nums[i], i, res, tmp);
             tmp.removeLast();
         }
     }
