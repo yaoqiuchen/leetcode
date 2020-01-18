@@ -20,7 +20,54 @@ import java.util.Arrays;
  */
 public class M34 {
 
+
+
     public int[] searchRange(int[] nums, int target) {
+        int n = nums.length;
+        // 如果target超出范围，直接中断
+        if (n == 0 || target < nums[0] || target > nums[n-1]) {
+            return new int[] {-1, -1};
+        }
+
+        int l = 0, h = n - 1, idx = -1;
+        while (l <= h) {
+            int mid = (l + h)/2;
+            if (target == nums[mid]) {
+                idx = mid;
+                break;
+            }
+
+            if (nums[mid] > target) {
+                h = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        if (idx >= 0) {
+            l = idx;
+            h = idx;
+
+            while (l > 0) {
+                if (nums[l-1] == target) l--;
+                else break;
+            }
+            while (h < n-1) {
+                if (nums[h+1] == target) h++;
+                else break;
+            }
+            return new int[] {l, h};
+        }
+
+        return new int[] {-1, -1};
+    }
+
+
+
+
+
+
+    public int[] searchRange2(int[] nums, int target) {
         if (nums.length == 0) return new int[] {-1, -1};
 
         int low = 0, high = nums.length - 1;
