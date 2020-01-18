@@ -1,7 +1,8 @@
 package array;
 
 /**
- Given an array nums and a value val, remove all instances of that value in-place and return the new length.
+ Given an array nums and a value val, remove all instances of that value in-place and return the
+ new length.
 
  Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra
  memory.
@@ -17,7 +18,22 @@ package array;
  It doesn't matter what you leave beyond the returned length.
  */
 public class E27 {
+
     public int removeElement(int[] nums, int val) {
+
+        int count = 0, idx = 0;
+        for (int i =0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[idx] = nums[i];
+                idx++;
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    public int removeElement2(int[] nums, int val) {
         int len = nums.length;
         for (int i = 0, gap = 0; i < nums.length; i++) {
             if (nums[i] == val) {
