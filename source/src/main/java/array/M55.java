@@ -1,5 +1,6 @@
 package array;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,8 +28,28 @@ public class M55 {
         new M55().canJump(new int[] {1,1,1,0});
     }
 
-    // 较优解法，O(n)，存储空间=1
+    // 2020-1-18
     public boolean canJump(int[] nums) {
+        if (nums.length <= 1) return true;
+        int n = nums.length - 1;
+        int last = n;
+
+        // 从倒数第二个下标开始
+        for (int i = n; i >= 0; i--) {
+            int next = nums[i] + i;
+            if (next >= last) {
+                last = i;
+            }
+        }
+
+        return last == 0;
+    }
+
+
+
+
+    // 较优解法，O(n)，存储空间=1
+    public boolean canJump3(int[] nums) {
         if (nums.length <= 1) return true;
         int max = nums[0];
         for (int i = 1; i < nums.length; i++) {
