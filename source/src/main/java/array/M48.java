@@ -50,10 +50,37 @@ import java.util.List;
 public class M48 {
 
     public static void main(String[] args) {
-        new M48().rotate(new int[][] {{1,2,3}, {4,5,6}, {7,8,9}});
+        new M48().rotate(new int[][] {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}});
     }
 
+
     public void rotate(int[][] matrix) {
+        int times = matrix.length / 2;
+        int n = matrix.length - 1;
+        // i表示总共要从外到内做几轮旋转
+        for (int i=0, len=matrix.length; i < times; i++) {
+            // j表示每一排要变换的数字个数，每次变换都有4个数字
+            // 要变动的数字个数是边长-1
+            for (int j = 0; j < len-2*i-1; j++) {
+                int up = matrix[i][i+j];
+                int right = matrix[i+j][n-i];
+                int bottom = matrix[n-i][n-j-i];
+                int left = matrix[n-j-i][i];
+
+                matrix[i][i+j] = left;
+                matrix[i+j][n-i] = up;
+                matrix[n-i][n-j-i] = right;
+                matrix[n-j-i][i] = bottom;
+            }
+        }
+    }
+
+
+
+
+
+
+    public void rotate2(int[][] matrix) {
         int n = matrix.length;
         int round = n / 2;
 
