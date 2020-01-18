@@ -1,9 +1,11 @@
 package array;
 
 /**
- Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
+ Given a sorted array nums, remove the duplicates in-place such that each element appear
+ only once and return the new length.
 
- Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+ Do not allocate extra space for another array, you must do this by modifying the input array
+ in-place with O(1) extra memory.
 
  Example 1:
 
@@ -14,7 +16,24 @@ package array;
  It doesn't matter what you leave beyond the returned length.
  */
 public class E26 {
+
     public int removeDuplicates(int[] nums) {
+        if (nums.length <= 1) return nums.length;
+
+        int count = 1, idx = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[idx]) {
+                continue;
+            }
+            count++;
+            idx++;
+            nums[idx] = nums[i];
+        }
+        return count;
+    }
+
+
+    public int removeDuplicates2(int[] nums) {
         if (nums.length <= 1) return nums.length;
 
         int flag = nums[0], len = nums.length;
