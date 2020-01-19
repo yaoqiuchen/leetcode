@@ -32,10 +32,36 @@ package array;
 public class M74 {
 
     public static void main(String[] args) {
-        new M74().searchMatrix(new int[][] {{0,1,1},{1,1,1},{1,1,1} }, 5);
+        new M74().searchMatrix(new int[][] {{1,1} }, 2);
     }
 
+
     public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        if (m == 0 || matrix[0].length == 0) return false;
+
+        int n = matrix[0].length;
+        int l = 0, h = m*n-1;
+
+        while (l <= h) {
+            int mid = (l + h)/2;
+            int x = mid / n;
+            int y = mid % n;
+            int val = matrix[x][y];
+            if (target == val) {
+                return true;
+            }
+
+            if (target < val) h = mid - 1;
+            else l = mid + 1;
+        }
+
+        return false;
+    }
+
+
+
+    public boolean searchMatrix_(int[][] matrix, int target) {
         if (matrix.length == 0 || matrix[0].length == 0) return false;
 
         int m = matrix.length, n = matrix[0].length;

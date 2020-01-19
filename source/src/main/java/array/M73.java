@@ -83,7 +83,7 @@ public class M73 {
             Arrays.fill(matrix[0], 0);
         }
         if (firstRowZero) {
-            for (int i = 0; i < ; i++) {
+            for (int i = 0; i < m; i++) {
                 matrix[i][0] = 0;
             }
         }
