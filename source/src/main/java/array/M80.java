@@ -29,7 +29,26 @@ public class M80 {
         new M80().removeDuplicates(new int[] {1, 2, 3, 4});
     }
 
+    // 2020-1-20
     public int removeDuplicates(int[] nums) {
+        if (nums.length <= 2) return nums.length;
+
+        int len = 2;
+        for (int i = 2; i < nums.length; i++) {
+            if (nums[i] == nums[len-1] && nums[i] == nums[len-2]) {
+                continue;
+            }
+            nums[len] = nums[i];
+            len++;
+        }
+
+        return len;
+    }
+
+
+
+
+    public int removeDuplicates_(int[] nums) {
         if (nums.length <= 1) return nums.length;
         int length = 1;
         for (int i = 1; i < nums.length; i++) {
