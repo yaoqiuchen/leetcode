@@ -31,7 +31,31 @@ public class M78 {
     // 202110
         new M78().subsets(new int[] {1,2,3});
     }
+
+    // 2020-1-20
     public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            List<List<Integer>> tmp = new ArrayList<>();
+
+            for (List<Integer> sub : res) {
+                List<Integer> newSub = new ArrayList<>();
+                newSub.addAll(sub);
+                newSub.add(nums[i]);
+                tmp.add(newSub);
+            }
+
+            tmp.add(Arrays.asList(nums[i]));
+            res.addAll(tmp);
+        }
+
+        res.add(new ArrayList<>());
+        return res;
+    }
+
+
+    public List<List<Integer>> subsets_(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {
