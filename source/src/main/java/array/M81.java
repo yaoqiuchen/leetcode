@@ -1,6 +1,8 @@
 
 package array;
 
+import java.util.Arrays;
+
 /**
  *  搜索旋转排序数组 II
  *
@@ -28,11 +30,54 @@ public class M81 {
 
     public static void main(String[] args) {
 //        char input[][] = new char[][] {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
-        new M81().search(new int[] {1,3,1,1,1}, 3);
+        new M81().search(new int[] {1,1,3,1}, 3);
     }
 
-    // 用二分的效率，感觉还不如直接遍历一遍来得快
     public boolean search(int[] nums, int target) {
+        int l = 0, h = nums.length-1;
+
+        while (l <= h) {
+            int mid = (l+h)/2;
+            if (nums[mid] == target || nums[l] == target || nums[h] == target) {
+                return true;
+            }
+
+            // 左侧是排序的
+            if (nums[0] < nums[mid] || (nums[0] == nums[mid] && isSame(nums, 0, mid))) {
+                if (target > nums[l] && target < nums[mid]) {
+                    h = mid-1;
+                } else {
+                    l = mid+1;
+                }
+            }
+            // 右侧一定是排序的
+            else  {
+                if (target > nums[mid] && target < nums[h]) {
+                    l = mid+1;
+                } else {
+                    h = mid-1;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    private boolean isSame(int[] nums, int start, int end) {
+        for (int i = start+1; i <= end; i++) {
+            if (nums[i] != nums[start]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+
+
+    // 用二分的效率，感觉还不如直接遍历一遍来得快
+    public boolean search_(int[] nums, int target) {
         int low = 0, high = nums.length - 1;
         while (low <= high) {
             int mid = (low + high) / 2;
