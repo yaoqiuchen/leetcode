@@ -20,22 +20,42 @@ public class E122 {
 
     }
 
+    // 2020-1-21
     public int maxProfit(int[] prices) {
-        if (prices.length == 0) return 0;
+        int max = 0, n = prices.length;
 
-        int[] buy = new int[prices.length];
-        int[] sell = new int[prices.length];
-
-        buy[0] = -prices[0];
-        sell[0] = 0;
-
-        int max = Integer.MIN_VALUE;
-        for (int i = 1; i < prices.length; i++) {
-            sell[i] = Math.max(sell[i-1], buy[i-1] + prices[i]);
-            buy[i] = Math.max(buy[i-1], sell[i-1] - prices[i]);
+        int[] buy = new int[n];
+        int[] sell = new int[n];
+        for (int i = 0; i < n; i++) {
+            int price = prices[i];
+            if (i == 0) {
+                buy[i] = -price;
+            } else {
+                buy[i] = Math.max(buy[i-1], sell[i-1] - price);
+                sell[i] = Math.max(sell[i-1], buy[i-1] + price);
+            }
             max = Math.max(max, sell[i]);
         }
 
-        return max == Integer.MIN_VALUE ? 0 : max;
+        return max;
     }
+
+//    public int maxProfit(int[] prices) {
+//        if (prices.length == 0) return 0;
+//
+//        int[] buy = new int[prices.length];
+//        int[] sell = new int[prices.length];
+//
+//        buy[0] = -prices[0];
+//        sell[0] = 0;
+//
+//        int max = Integer.MIN_VALUE;
+//        for (int i = 1; i < prices.length; i++) {
+//            sell[i] = Math.max(sell[i-1], buy[i-1] + prices[i]);
+//            buy[i] = Math.max(buy[i-1], sell[i-1] - prices[i]);
+//            max = Math.max(max, sell[i]);
+//        }
+//
+//        return max == Integer.MIN_VALUE ? 0 : max;
+//    }
 }
