@@ -33,33 +33,60 @@ public class M120 {
         new M120().minimumTotal(input);
     }
 
-    // 2019-12-03
+    // 2019-1-20
     public int minimumTotal(List<List<Integer>> triangle) {
         int result = 0;
-        int[] old = null;
 
-        for (int i = 0; i < triangle.size(); i++) {
-            List<Integer> line = triangle.get(i);
-            int[] dp = new int[i+1];
+        List<Integer> last = new ArrayList<>();
+        for (int i = 1; i <= triangle.size(); i++) {
+            List<Integer> line = triangle.get(i-1);
             int min = Integer.MAX_VALUE;
-
-            for (int j = 0; j < line.size(); j++) {
-                if (old == null) {
-                    dp[j] = line.get(j);
-                } else {
-                    dp[j] = Math.min(
-                            old.length > j ? old[j] : Integer.MAX_VALUE,
-                            j-1>=0?old[j-1]:Integer.MAX_VALUE
-                    );
-                    dp[j] += line.get(j);
+            for (int j = 0; j < i; j++) {
+                if (last.isEmpty()) {
+                    min = Math.min(min, line.get(j));
+                    continue;
                 }
-                min = Math.min(min, dp[j]);
+
+                int shortPath = Math.min(
+                        j == i-1 ? Integer.MAX_VALUE : last.get(j),
+                        j == 0 ? Integer.MAX_VALUE : last.get(j-1));
+                line.set(j, line.get(j) + shortPath);
+                min = Math.min(min, line.get(j));
             }
-            old = dp;
             result = min;
+            last = line;
         }
+
         return result;
     }
+
+//    // 2019-12-03
+//    public int minimumTotal(List<List<Integer>> triangle) {
+//        int result = 0;
+//        int[] old = null;
+//
+//        for (int i = 0; i < triangle.size(); i++) {
+//            List<Integer> line = triangle.get(i);
+//            int[] dp = new int[i+1];
+//            int min = Integer.MAX_VALUE;
+//
+//            for (int j = 0; j < line.size(); j++) {
+//                if (old == null) {
+//                    dp[j] = line.get(j);
+//                } else {
+//                    dp[j] = Math.min(
+//                            old.length > j ? old[j] : Integer.MAX_VALUE,
+//                            j-1>=0?old[j-1]:Integer.MAX_VALUE
+//                    );
+//                    dp[j] += line.get(j);
+//                }
+//                min = Math.min(min, dp[j]);
+//            }
+//            old = dp;
+//            result = min;
+//        }
+//        return result;
+//    }
 
 
 
