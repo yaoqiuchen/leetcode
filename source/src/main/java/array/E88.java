@@ -11,10 +11,39 @@ package array;
 public class E88 {
 
     public static void main(String[] args) {
-        new E88().merge(new int[] {1,2,3,0,0,0}, 3, new int[] {5,5,6}, 3);
+        new E88().merge(new int[] {4,5,6,0,0,0}, 3, new int[] {1,2,3}, 3);
     }
 
+
     public void merge(int[] nums1, int m, int[] nums2, int n) {
+        if (nums2.length == 0) return;
+
+        int len1 = 0, len2 = 0, total = 0;
+        while (len2 < n) {
+            // 插入到前面
+            if (nums2[len2] < nums1[total]) {
+                // 后移动
+                for (int i = m+len2; i >= total+1; i--) {
+                    nums1[i] = nums1[i-1];
+                }
+                nums1[total] = nums2[len2];
+                len2++;
+            } else {
+                // 到头了
+                if (len1 == m) {
+                    nums1[total] = nums2[len2];
+                    len2++;
+                } else {
+                    len1++;
+                }
+            }
+            total++;
+        }
+    }
+
+
+
+    public void merge_(int[] nums1, int m, int[] nums2, int n) {
         int i1 = 0, i2 = 0;
         next : while (i2 < n) {
             int val = nums2[i2];
