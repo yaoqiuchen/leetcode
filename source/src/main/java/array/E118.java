@@ -13,7 +13,35 @@ public class E118 {
         new E118().generate(3);
     }
 
+
+
     public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<>();
+
+        List<Integer> lastLine = new ArrayList<>();
+        for (int i = 1; i <= numRows; i++) {
+            List<Integer> newLine = new ArrayList<>(i);
+
+            for (int j = 0; j < i; j++) {
+                if (j == 0 || j == i-1) {
+                    newLine.add(1);
+                    continue;
+                }
+                int val = lastLine.get(j-1) + lastLine.get(j);
+                newLine.add(val);
+            }
+            res.add(newLine);
+            lastLine = newLine;
+        }
+        return res;
+    }
+
+
+
+
+
+
+    public List<List<Integer>> generate_(int numRows) {
         List<List<Integer>> res = new ArrayList<>();
 
         List<Integer> preLine = new ArrayList<>();
