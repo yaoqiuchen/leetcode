@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ *
+ * 90. 子集 II
+ *
  给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
 
  说明：解集不能包含重复的子集。
@@ -26,10 +29,64 @@ import java.util.List;
 public class M90 {
 
     public static void main(String[] args) {
-        new M90().subsetsWithDup(new int[] {1,3,4});
+        new M90().subsetsWithDup(new int[] {1,2,3});
     }
 
+
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        // 排序，确保相同的数字排在一起
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+
+        subsetsWithDup(nums, 0, res);
+        res.add(Arrays.asList());
+        return res;
+    }
+
+    public void subsetsWithDup(int[] nums, int start, List<List<Integer>> res) {
+        int count = 0, idx = start;
+        for (int i = start; i <= nums.length; i++) {
+            List<List<Integer>> newElements = new ArrayList<>();
+            // 如果是相同的数字，什么都不做，只是把count++
+            if (i == 0 || (i < nums.length && nums[i] == nums[i-1])) {
+                count++;
+                continue;
+            }
+            // 现在数字不同了，开始清算
+            // 如果相同数字有3个，那么生成阶乘的组合[[1],[1,1],[1,1,1]]
+            List<List<Integer>> tmp = new ArrayList<>();
+            for (int j = 0; j < count; j++) {
+                List<Integer> _tmp = new ArrayList<>();
+                for (int c = 0; c <= j; c++) {
+                    _tmp.add(nums[idx]);
+                }
+                tmp.add(_tmp);
+            }
+            // 将tmp和res做笛卡尔乘积
+            // 然后把结果加到最终结果集里面
+            for (List<Integer> element : res) {
+                for (List<Integer> _tmp : tmp) {
+                    List<Integer> node = new ArrayList<>(element);
+                    node.addAll(_tmp);
+                    newElements.add(node);
+                }
+            }
+            if (!newElements.isEmpty()) {
+                res.addAll(newElements);
+            }
+            res.addAll(tmp);
+            count = 1;
+            idx = i;
+        }
+    }
+
+
+
+
+
+
+
+    public List<List<Integer>> subsetsWithDup_(int[] nums) {
         if (nums.length == 0) return new ArrayList<>(new ArrayList<>());
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
