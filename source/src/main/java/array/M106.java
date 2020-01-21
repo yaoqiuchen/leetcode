@@ -24,6 +24,33 @@ public class M106 {
     }
 
     public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder.length == 0) {
+            return null;
+        }
+        return buildTree(inorder, postorder, 0, 0, inorder.length);
+    }
+
+    public TreeNode buildTree(int[] inorder, int[] postorder, int inorderIdx, int postorderIdx, int len) {
+        if (len == 0) {
+            return null;
+        }
+        int head = postorder[postorderIdx+len-1];
+        TreeNode node = new TreeNode(head);
+
+        int count = 0, i = inorderIdx;
+        while (inorder[i] != head) {
+            count++;
+            i++;
+        }
+
+        node.left = buildTree(inorder, postorder, inorderIdx, postorderIdx, count);
+        node.right = buildTree(inorder, postorder, inorderIdx+count+1, postorderIdx+count, len-count-1);
+        return node;
+    }
+
+
+
+    public TreeNode buildTree_(int[] inorder, int[] postorder) {
         return DFS(inorder, 0, inorder.length, postorder, postorder.length - 1);
     }
 
