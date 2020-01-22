@@ -33,30 +33,67 @@ public class D123 {
     }
 
 
+    // 2020-1-20
     public int maxProfit(int[] prices) {
+        if (prices.length <=1) return 0;
+
         int n = prices.length;
-        if (n == 0) {
-            return 0;
-        }
+        // 第二个参数代表是第一次buy，还是第二次buy
+        int[][] buy = new int[n][2];
+        int[][] sell = new int[n][2];
 
-        int[][] buy = new int[n][3];
-        int[][] sell = new int[n][3];
-
-        int max = Integer.MIN_VALUE;
+        int max = 0;
         for (int i = 0; i < n; i++) {
-            // 截止前一天只买一次 （如果i>0，前一天只买一次 vs 当天买）else
-            buy[i][1] = (i > 0) ? Math.max(buy[i-1][1], -prices[i]) : -prices[i];
-            // 截止前一天买2次
-            buy[i][2] = (i >= 2) ? Math.max(buy[i-1][2], sell[i-1][1] - prices[i]) : Integer.MIN_VALUE;
+            int price = prices[i];
+            if (i == 0) {
+                buy[0][0] = -price;
+                sell[0][0] = -price;
+                continue;
+            }
+            // 第一次购买，最大的价格是上一次买，或者这次买
+            buy[i][0] = Math.max(buy[i-1][0], -price);
+            // 第二次购买，最大价格是上次第二回买，或者上回第一次卖-当次买
+            buy[i][1] = (i < 2) ? Integer.MIN_VALUE :
+                    Math.max((i == 2 ? Integer.MIN_VALUE : buy[i-1][1]), sell[i-1][0] - price);
 
-            sell[i][1] = (i > 0) ? Math.max(sell[i-1][1], buy[i-1][1] + prices[i]) : 0;
-            sell[i][2] = (i > 2) ? Math.max(sell[i-1][2], buy[i-1][2] + prices[i]) : 0;
+            sell[i][0] = Math.max(sell[i-1][0], buy[i-1][0]+price);
+            sell[i][1] = (i<3) ? Integer.MIN_VALUE :
+                    Math.max((i==3 ? Integer.MIN_VALUE : sell[i-1][1]), buy[i-1][1]+price);
 
-            max = Math.max(max, Math.max(sell[i][1], sell[i][2]));
+            max = Math.max(max, Math.max(sell[i][0], sell[i][1]));
         }
 
         return max;
     }
+
+
+
+//
+//
+//    public int maxProfit(int[] prices) {
+//        int n = prices.length;
+//        if (n == 0) {
+//            return 0;
+//        }
+//
+//        int[][] buy = new int[n][3];
+//        int[][] sell = new int[n][3];
+//
+//        int max = Integer.MIN_VALUE;
+//        for (int i = 0; i < n; i++) {
+//            // 截止前一天只买一次 （如果i>0，前一天只买一次 vs 当天买）else
+//            buy[i][1] = (i > 0) ? Math.max(buy[i-1][1], -prices[i]) : -prices[i];
+//            // 截止前一天买2次
+//            buy[i][2] = (i >= 2) ? Math.max(buy[i-1][2], sell[i-1][1] - prices[i]) : Integer.MIN_VALUE;
+//
+//            sell[i][1] = (i > 0) ? Math.max(sell[i-1][1], buy[i-1][1] + prices[i]) : 0;
+//            sell[i][2] = (i > 2) ? Math.max(sell[i-1][2], buy[i-1][2] + prices[i]) : 0;
+//
+//            max = Math.max(max, Math.max(sell[i][1], sell[i][2]));
+//        }
+//
+//        return max;
+//    }
 
 
 
