@@ -19,14 +19,40 @@ package dp;
 public class M152 {
 
     public static void main(String[] args) {
-        new M152().maxProduct2(new int[] {2,-5,-2,-4,3});
+        new M152().maxProduct(new int[] {3,-1,4});
     }
+
+
+    //2020-1-22
+    public int maxProduct(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        // dp[i][0] 和 dp[i][1]分别代表截止到i最大和最小的值
+        int max = nums[0], min = nums[0], res = nums[0];
+        for (int i = 1; i < n; i++) {
+            int val = nums[i];
+            if (val < 0) {
+                // 极小化极大
+                int tmp = max;
+                max = Math.max(val, min * val);
+                min = Math.min(val, tmp * nums[i]);
+            } else if (val > 0 ){
+                max = Math.max(val, max * val);
+                min = Math.min(val, min * val);
+            } else {
+                max = 0;
+                min = 0;
+            }
+            res = Math.max(res, Math.max(max, min));
+        }
+
+        return res;
+    }
+
 
     public int maxProduct2(int[] nums) {
         int len = nums.length;
-        int[] dp = new int[len];
-        dp[0] = nums[0];
-
         int max = nums[0], min = nums[0], result = nums[0];
         for (int i = 1; i < len; i++) {
             int val = nums[i], tmp = max;
@@ -49,7 +75,7 @@ public class M152 {
 
 
     // 以前的解法
-    public int maxProduct(int[] nums) {
+    public int maxProduct_(int[] nums) {
         if (nums.length == 0) return 0;
         int min = 1, max = 1, res = Integer.MIN_VALUE;
         for (int val : nums) {
