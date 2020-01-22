@@ -28,7 +28,37 @@ public class M153 {
         new M153().findMin(new int[] {2,1});
     }
 
+
+    // 2020-1-22
     public int findMin(int[] nums) {
+        int l = 0, h = nums.length-1;
+
+        int min = Integer.MAX_VALUE;
+        while (l <= h) {
+            int mid = (l+h)/2;
+            min = Math.min(min, nums[mid]);
+
+            // 左侧一定是排序的
+            if (nums[l] <= nums[mid]) {
+                min = Math.min(min, nums[l]);
+                l = mid+1;
+            }
+            // 右侧一定是排序的
+            else if (nums[mid] <= nums[h]){
+                min = Math.min(min, (mid < h) ? nums[mid+1] : nums[h]);
+                h = mid-1;
+            } else {
+                h--;
+                l++;
+            }
+        }
+
+        return min;
+    }
+
+
+
+    public int findMin_(int[] nums) {
         int len = nums.length;
         if (len == 0) return 0;
         if (nums[0] <= nums[len-1]) return nums[0];
