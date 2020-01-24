@@ -27,7 +27,34 @@ public class M229 {
         new M229().majorityElement(new int[] {1,2,3,4,5,6,6,7,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9});
     }
 
+    // 2020-1-25
     public List<Integer> majorityElement(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        if (nums.length == 0) return res;
+
+        Arrays.sort(nums);
+        int start = 0, target = nums.length/3;
+        for (int i = 1; i < nums.length; i++) {
+            int val = nums[i];
+            if (val == nums[start]) {
+                continue;
+            }
+            if (i-start > target) {
+                res.add(nums[i-1]);
+            }
+            start = i;
+        }
+
+        if (nums.length-start > target) {
+            res.add(nums[nums.length-1]);
+        }
+        return res;
+    }
+
+
+
+
+    public List<Integer> majorityElement_(int[] nums) {
         List<Integer> res = new ArrayList<>();
 
         Arrays.sort(nums);
