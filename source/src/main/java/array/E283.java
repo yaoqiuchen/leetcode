@@ -26,7 +26,34 @@ public class E283 {
         new E283().moveZeroes(new int[] {1,3,5,6});
     }
 
+
+    //2020-1-25
     public void moveZeroes(int[] nums) {
+        int idx =0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                if (idx == i) {
+                    idx++;
+                    continue;
+                }
+                nums[idx] = nums[i];
+                nums[i] = 0;
+                idx++;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public void moveZeroes_(int[] nums) {
         int j = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != 0) {
@@ -37,6 +64,7 @@ public class E283 {
             nums[j++] = 0;
         }
     }
+
 
 
     // 复杂写法
