@@ -2,6 +2,7 @@ package array;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
@@ -17,7 +18,34 @@ import java.util.TreeSet;
  */
 public class E414 {
 
+    public static void main(String[] args) {
+        new E414().thirdMax(new int[] {-2147483648,1,1,2});
+    }
+
     public int thirdMax(int[] nums) {
+        SortedSet<Integer> set = new TreeSet<Integer>();
+        for (int i = 0; i < nums.length; i++) {
+            set.add(nums[i]);
+        }
+
+        int count = set.size() < 3 ? set.size()-1 : set.size() - 3;
+        int i = 0;
+        for (Integer val : set) {
+            if (i == count) {
+                return val;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+
+
+
+
+
+
+    public int thirdMax_(int[] nums) {
         Set<Integer> filter = new TreeSet<>();
         for (int val : nums) {
             filter.add(val);
