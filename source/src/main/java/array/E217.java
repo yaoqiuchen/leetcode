@@ -30,7 +30,23 @@ public class E217 {
         new E217().containsDuplicate(new int[] {});
     }
 
+    // 2020-1-25
     public boolean containsDuplicate(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i-1]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+    public boolean containsDuplicate_(int[] nums) {
         Arrays.sort(nums);
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] == nums[i-1]) return true;
