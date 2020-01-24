@@ -23,7 +23,28 @@ package array;
  */
 public class M162 {
 
+    // 2020-1-24
     public int findPeakElement(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return -1;
+
+        int res = 0;
+        for (int i = 1; i < n; i++) {
+            int val = nums[i];
+            if (val < nums[i-1] || (i+1<n && val < nums[i+1])) {
+                continue;
+            }
+            return i;
+        }
+
+        return res;
+    }
+
+
+
+
+
+    public int findPeakElement_(int[] nums) {
         if (nums.length <= 1) return 0;
         if (nums.length <= 2) return nums[0] > nums[1] ? 0 : 1;
 
