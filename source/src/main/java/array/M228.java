@@ -24,7 +24,41 @@ public class M228 {
         new M228().summaryRanges(new int[] {1,2,3,1});
     }
 
+
+    // 2020-1-25
     public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        if (nums.length == 0) return res;
+
+        String line = nums[0] + "";
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i-1] + 1) {
+                count++;
+                continue;
+            } else {
+                if (count > 1) {
+                    line += "->" + nums[i-1];
+                }
+                res.add(line);
+                line = nums[i] + "";
+                count = 1;
+            }
+        }
+
+        if (count > 1) {
+            line += "->" + nums[nums.length-1];
+        }
+        res.add(line);
+        return res;
+    }
+
+
+
+
+
+
+    public List<String> summaryRanges_(int[] nums) {
         List<String> res = new ArrayList<>();
         if (nums.length == 0) return res;
 
