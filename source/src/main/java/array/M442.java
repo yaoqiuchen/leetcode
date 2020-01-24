@@ -21,12 +21,29 @@ import java.util.*;
  */
 public class M442 {
 
-//    public static void main(String[] args) {
-//        new M15().threeSum(new int[] {-2,0,0,2,2});
-//    }
+    public static void main(String[] args) {
+        new M442().findDuplicates(new int[] {4,3,2,7,8,2,3,1});
+    }
+
+    // 2020-1-25
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int next = Math.abs(nums[i]) - 1;
+            if (nums[next] > 0) {
+                nums[next] *= -1;
+            } else {
+                res.add(Math.abs(nums[i]));
+            }
+        }
+
+        return res;
+    }
+
+
 
     // 根据所有数字都>=1来做文章，借助负数表示该数字已经出现过
-    public List<Integer> findDuplicates(int[] nums) {
+    public List<Integer> findDuplicates_(int[] nums) {
         Set<Integer> res = new HashSet<>();
         for (int val : nums) {
             int idx = Math.abs(val) - 1;
