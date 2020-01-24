@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * 238. 除自身以外数组的乘积
  *
- 给定长度为 n 的整数数组 nums，其中 n > 1，返回输出数组 output ，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
+ 给定长度为 n 的整数数组 nums，其中 n > 1，返回输出数组 output ，
+ 其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
 
  示例:
 
@@ -25,9 +26,41 @@ public class M238 {
         new M238().productExceptSelf(new int[] {1,2,3,4,5,6,6,7,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9});
     }
 
+
+
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            if (i == 0) left[0] = nums[0];
+            else left[i] = left[i-1] * nums[i];
+        }
+
+        for (int i = n-1; i >= 0; i--) {
+            if (i == n-1) right[n-1] = nums[n-1];
+            else right[i] = right[i+1] * nums[i];
+        }
+
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            int l = (i==0) ? 1 : left[i-1];
+            int r = (i==n-1) ? 1 : right[i+1];
+            res[i] = l * r;
+        }
+        return res;
+    }
+
+
+
+
+
+
+
     // 从左至右乘一遍，从右到左乘一遍
     // 这个解法，我是想不到，不过很像奇技淫巧，没个卵用
-    public int[] productExceptSelf(int[] nums) {
+    public int[] productExceptSelf_(int[] nums) {
         int len = nums.length;
         int[] re = new int[len];
         if(len == 0) return new int[]{0};
