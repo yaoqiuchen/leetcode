@@ -22,7 +22,31 @@ public class E169 {
         new E169().majorityElement(new int[] {2,3,2});
     }
 
+
+
+
+    // 2020-1-24
     public int majorityElement(int[] nums) {
+        if (nums.length == 0) return -1;
+        Arrays.sort(nums);
+        int res = nums[0], count = 1, target = nums.length / 2;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == res && ++count > target) {
+                return nums[i];
+            }
+            if (nums[i] != res) {
+                count = 1;
+                res = nums[i];
+            }
+        }
+
+        return res;
+    }
+
+
+
+
+    public int majorityElement_(int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length - 1];
     }
