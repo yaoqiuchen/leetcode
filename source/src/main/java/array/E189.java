@@ -33,9 +33,39 @@ public class E189 {
         new E189().rotate(new int[] {1,2,3,4,5,6}, 2);
     }
 
+    // 2020-1-24
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        if (n <= 1 || k % n == 0) return;
+
+        // dp[i]表示i的数字已经是正确数字了
+        boolean[] dp = new boolean[n];
+        int step = k % n, tmp = nums[0];
+        for (int i = 0; i < n; i++) {
+            if (dp[i]) continue;
+
+            int next = (i + step) % n;
+            tmp = nums[i];
+            // 一旦下一个数字是正确数字，那么后面的数字也一定被移动好了，直接中断即可
+            while (!dp[next]) {
+                int _tmp = nums[next];
+                nums[next] = tmp;
+                tmp = _tmp;
+
+                dp[next] = true;
+                next = (next + step) % n;
+            }
+        }
+    }
+
+
+
+
+
+
 
     // 性能不行
-    public void rotate(int[] nums, int k) {
+    public void rotate_(int[] nums, int k) {
         if (nums.length == 0 || k == 0) return;
         k = k % nums.length;
         if (k == 0) return;
