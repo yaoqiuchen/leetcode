@@ -1,6 +1,7 @@
 package array;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  448. 找到所有数组中消失的数字
@@ -21,7 +22,29 @@ import java.util.*;
  */
 public class E448 {
 
+
+    // 2020-1-25
     public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int idx = Math.abs(nums[i]) - 1;
+            if (nums[idx] > 0) {
+                nums[idx] *= -1;
+            }
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                res.add(i+1);
+            }
+        }
+        return res;
+    }
+
+
+
+    public List<Integer> findDisappearedNumbers_(int[] nums) {
         for (int val : nums) {
             int idx = Math.abs(val) - 1;
             if (nums[idx] > 0) {
