@@ -21,7 +21,30 @@ public class E167 {
         new E167().twoSum(new int[] {-1,0}, -1);
     }
 
+
+    // 2020-1-24
     public int[] twoSum(int[] numbers, int target) {
+        int i = 0, h = numbers.length -1;
+        while (i < h) {
+            int val = numbers[i] + numbers[h];
+            if (val == target) {
+                return new int[] {i+1, h+1};
+            }
+            if (val < target) {
+                i++;
+            } else {
+                h--;
+            }
+        }
+
+        return new int[] {-1, -1};
+    }
+
+
+
+
+
+    public int[] twoSum_(int[] numbers, int target) {
         int l = 0, h = numbers.length - 1;
         int[] res = new int[2];
 
