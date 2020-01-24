@@ -24,7 +24,21 @@ public class E268 {
         new E268().missingNumber(new int[] {1,3,5,6});
     }
 
+
+    // 2020-1-25
     public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+
+
+
+    public int missingNumber_(int[] nums) {
         Arrays.sort(nums);
 
         for (int i = 0; i < nums.length; i++) {
