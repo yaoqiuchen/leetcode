@@ -5,7 +5,8 @@ import java.util.Arrays;
 /**
  287. 寻找重复数
 
- 给定一个包含 n + 1 个整数的数组 nums，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。假设只有一个重复的整数，找出这个重复的数。
+ 给定一个包含 n + 1 个整数的数组 nums，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。
+ 假设只有一个重复的整数，找出这个重复的数。
 
  示例 1:
 
@@ -26,12 +27,32 @@ import java.util.Arrays;
 public class M287 {
 
     public static void main(String[] args) {
-        new M287().findDuplicate(new int[] {1,3,5,6});
+        new M287().findDuplicate(new int[] {1,3,4,2,2});
     }
 
-    // 最优解法没想出来，借鉴别人答案
+    // 2020-1-25
     public int findDuplicate(int[] nums) {
-        //按照题意，指针在数列上前进时，其路径为长度X的起始部分，外加长度为Y的循环部分(PS：唯一的重复元素造成了循环，除重复元素以外的i = nums[i]和第2个以后的重复元素会被排除于序列之外)
+        int l = 0, h = nums.length-1;
+        while (l < h) {
+            int mid = (l+h)/2;
+            long count = Arrays.stream(nums).filter(e -> e <= mid).count();
+
+            if (count <= mid) {
+                l = mid+1;
+            } else {
+                h = mid;
+            }
+        }
+
+        return l;
+    }
+
+
+
+    // 最优解法没想出来，借鉴别人答案
+    public int findDuplicate_(int[] nums) {
+        //按照题意，指针在数列上前进时，其路径为长度X的起始部分，外加长度为Y的循环部分
+        // (PS：唯一的重复元素造成了循环，除重复元素以外的i = nums[i]和第2个以后的重复元素会被排除于序列之外)
         //例： nums = [1,2,3,4,2], 指针前进的路径为：
         //      i  0 1 2 3 4 2 3 4 2 3 4 ...
         // num[i]  1 2 3 4 2 3 4 2 3 4 2 ...
