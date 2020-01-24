@@ -45,45 +45,77 @@ public class M380 {
 //        new M380().gameOfLife(new int[][] {{0,1,0},{0,0,1},{1,1,1},{0,0,0}});
     }
 
+
+    Set<Integer> data = null;
+
     /** Initialize your data structure here. */
     public M380() {
+        data = new HashSet<>();
     }
-
-    Set<Integer> set = new HashSet<>(16, 1);
 
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
-        if (set.contains(val)) {
-            return false;
-        }
-        set.add(val);
-        return true;
+        return data.add(val);
     }
 
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     public boolean remove(int val) {
-        if (set.contains(val)) {
-            set.remove(val);
-            return true;
-        }
-        return false;
+        return data.remove(val);
     }
 
     /** Get a random element from the set. */
     public int getRandom() {
-        if (set.isEmpty()) {
-            return -1;
-        }
         Random rand = new Random();
-        int num = rand.nextInt(set.size());
-
+        int idx = rand.nextInt(data.size());
         int i = 0;
-        for (Integer val : set) {
-            if (i == num) return val;
+        for (Integer val : data) {
+            if (i==idx) return val;
             i++;
         }
         return 0;
     }
+
+
+
+    /** Initialize your data structure here. */
+//    public M380() {
+//    }
+//
+//    Set<Integer> set = new HashSet<>(16, 1);
+//
+//    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+//    public boolean insert(int val) {
+//        if (set.contains(val)) {
+//            return false;
+//        }
+//        set.add(val);
+//        return true;
+//    }
+//
+//    /** Removes a value from the set. Returns true if the set contained the specified element. */
+//    public boolean remove(int val) {
+//        if (set.contains(val)) {
+//            set.remove(val);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    /** Get a random element from the set. */
+//    public int getRandom() {
+//        if (set.isEmpty()) {
+//            return -1;
+//        }
+//        Random rand = new Random();
+//        int num = rand.nextInt(set.size());
+//
+//        int i = 0;
+//        for (Integer val : set) {
+//            if (i == num) return val;
+//            i++;
+//        }
+//        return 0;
+//    }
 }
 /**
  * Your RandomizedSet object will be instantiated and called as such:
