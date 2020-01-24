@@ -19,11 +19,38 @@ import java.util.*;
 public class M209 {
 
     public static void main(String[] args) {
-        new M209().minSubArrayLen(7, new int[] {1,1});
+        new M209().minSubArrayLen(15, new int[] {5,1,3,5,10,7,4,9,2,8});
     }
 
-    // 二刷解法
+
     public static int minSubArrayLen(int s, int[] nums) {
+        int sum = Arrays.stream(nums).sum();
+        if (sum < s || sum == 0) return 0;
+
+        int res = Integer.MAX_VALUE, l = 0, h = 0, total = nums[l];
+        while (l <= h && h < nums.length) {
+            if (total >= s) {
+                if (res >= h-l+1) {
+                    res = h-l+1;
+                }
+                total -= nums[l];
+                l++;
+            } else {
+                h++;
+                total += h < nums.length ? nums[h] : 0;
+            }
+        }
+
+        return res;
+    }
+
+
+
+
+
+
+    // 二刷解法
+    public static int minSubArrayLen_(int s, int[] nums) {
         if (nums.length == 0) return 0;
 
         int l = 0, h = 0, count = nums[0], min = Integer.MAX_VALUE;
