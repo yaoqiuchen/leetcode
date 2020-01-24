@@ -51,50 +51,99 @@ public class D381 {
 //        new M380().gameOfLife(new int[][] {{0,1,0},{0,0,1},{1,1,1},{0,0,0}});
     }
 
+    Map<Integer, Integer> data = new HashMap<>();
+    int count = 0;
+
     /** Initialize your data structure here. */
     public D381() {
     }
 
-    private Map<Integer, Integer> data = new HashMap<>();
-    private int size = 0;
-
     /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
     public boolean insert(int val) {
-        int occurs = data.get(val) == null ? 1 : data.get(val) + 1;
-        data.put(val, occurs);
-        size++;
-        return occurs == 1;
+        if (data.containsKey(val)) {
+            data.put(val, data.get(val)+1);
+            count++;
+            return false;
+        }
+        data.put(val, 1);
+        count++;
+        return true;
     }
 
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     public boolean remove(int val) {
-        if (!data.containsKey(val)) {
-            return false;
+        if (data.containsKey(val)) {
+            int nums = data.get(val);
+            if (nums == 1) {
+                data.remove(val);
+            } else {
+                data.put(val, nums-1);
+            }
+            count--;
+            return true;
         }
-        int occurs = data.get(val);
-        size--;
-        if (occurs == 1) {
-            data.remove(val);
-        } else {
-            data.put(val, occurs - 1);
-        }
-        return true;
+        return false;
     }
 
     /** Get a random element from the collection. */
     public int getRandom() {
-        if (data.isEmpty()) return -1;
-        int num = new Random().nextInt(size);
-
-        int count = -1;
-        for (Map.Entry<Integer, Integer> entry : data.entrySet()) {
-            if (count + entry.getValue() >= num) {
-                return entry.getKey();
+        int idx = new Random().nextInt(count);
+        int i = 0;
+        for (Integer key : data.keySet()) {
+            int val = data.get(key);
+            for (int j = 0; j < val; j++) {
+                if (i == idx) {
+                    return key;
+                }
+                i++;
             }
-            count += entry.getValue();
         }
-        return 1;
+        return i;
     }
+
+
+
+//
+//    private Map<Integer, Integer> data = new HashMap<>();
+//    private int size = 0;
+//
+//    /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
+//    public boolean insert(int val) {
+//        int occurs = data.get(val) == null ? 1 : data.get(val) + 1;
+//        data.put(val, occurs);
+//        size++;
+//        return occurs == 1;
+//    }
+//
+//    /** Removes a value from the collection. Returns true if the collection contained the specified element. */
+//    public boolean remove(int val) {
+//        if (!data.containsKey(val)) {
+//            return false;
+//        }
+//        int occurs = data.get(val);
+//        size--;
+//        if (occurs == 1) {
+//            data.remove(val);
+//        } else {
+//            data.put(val, occurs - 1);
+//        }
+//        return true;
+//    }
+//
+//    /** Get a random element from the collection. */
+//    public int getRandom() {
+//        if (data.isEmpty()) return -1;
+//        int num = new Random().nextInt(size);
+//
+//        int count = -1;
+//        for (Map.Entry<Integer, Integer> entry : data.entrySet()) {
+//            if (count + entry.getValue() >= num) {
+//                return entry.getKey();
+//            }
+//            count += entry.getValue();
+//        }
+//        return 1;
+//    }
 }
 /**
  * Your RandomizedCollection object will be instantiated and called as such:
