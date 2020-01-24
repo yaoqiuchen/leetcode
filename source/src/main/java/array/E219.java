@@ -28,8 +28,35 @@ public class E219 {
         new E219().containsNearbyDuplicate(new int[] {1,2,3,1}, 3);
     }
 
-    // 简单答案
+
+    // 2020-1-25
+    // 没半年前写的方法性能好
     public boolean containsNearbyDuplicate(int[] nums, int k) {
+        if (k <= 0 || nums.length <= 1) return false;
+        int l = 0, h = 1;
+
+        while (l < h && h < nums.length) {
+            if (h-l > k) {
+                l++;
+                h = l+1;
+                continue;
+            }
+            if (nums[l] == nums[h] && h-l <= k) {
+                return true;
+            }
+            if (h == nums.length-1) {
+                l++;
+            } else {
+                h++;
+            }
+        }
+        return false;
+    }
+
+
+
+    // 简单答案
+    public boolean containsNearbyDuplicate_(int[] nums, int k) {
         Set<Integer> filter = new HashSet<>();
         for (int i = 0; i < nums.length; i++) {
             // filter中仅保存k+1个数字
