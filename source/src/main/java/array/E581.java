@@ -25,6 +25,36 @@ public class E581 {
 //        new E566().arrayNesting(new int[] {5,4,0,3,1,6,2});
     }
 
+    // 2020-1-26
+    public int findUnsortedSubarray(int[] nums) {
+        int[] arr = Arrays.stream(nums).sorted().toArray();
+
+        int l = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            if (arr[i] != nums[i]) {
+                l = i;
+                break;
+            }
+        }
+
+        int h = Integer.MAX_VALUE;
+        for (int i = nums.length-1; i >= 0; i--) {
+            if (arr[i] != nums[i]) {
+                h = i;
+                break;
+            }
+        }
+
+        return l != h ? h - l + 1 : 0;
+    }
+
+
+
+
+
+
+
+
     // 正确答案，但是时间和空间都不好，时间上用了sort，空间上用了O(n)额外空间
     public int findUnsortedSubarray2(int[] nums) {
         int[] copy = Arrays.stream(nums).sorted().toArray();
