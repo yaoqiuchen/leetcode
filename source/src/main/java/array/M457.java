@@ -42,10 +42,56 @@ import java.util.Set;
 public class M457 {
 
     public static void main(String[] args) {
-        new M457().circularArrayLoop(new int[] {3,1,2});
+        new M457().circularArrayLoop(new int[] {-1});
     }
 
+
+    // 2020-1-25  考察快慢指针
+    //
     public boolean circularArrayLoop(int[] nums) {
+        boolean retBoolean = false;
+        for(int i=0; i<nums.length; i++){
+            // j是慢指针，k是快指针
+            int j = i,k=getNextIndex(nums,i);
+            // 如果发现不同方向，那么直接中断
+            // 1) i起点和j慢指针是相同方向
+            // 2) i和k快指针也是相同方向
+            // 3) i和快指针后面的那个数字也是相同方向，那么ok
+            while (nums[i] * nums[j] > 0 && nums[i]*nums[k] > 0 && nums[i] * nums[getNextIndex(nums,k)]>0){
+                // 快慢指针相遇
+                if(j==k){
+                    // 如果j的下一个是它自己，那么说明长度=1，不满足条件
+                    if(j==getNextIndex(nums,j)){
+                        break;
+                    }
+                    return true;
+                }
+                // j往后走一格
+                j = getNextIndex(nums,j);
+                // k往后走两格
+                k = getNextIndex(nums,getNextIndex(nums,k));
+            }
+        }
+        return retBoolean;
+    }
+
+    private static int getNextIndex(int[] nums, int i){
+        int length = nums.length;
+        int nextPosition = i + nums[i];
+        // 如果长度是1，那不管怎么移动，一定还在当前节点
+        if (length == 1) return i;
+        return nextPosition >= 0 ? nextPosition%length:length + (nextPosition%length);
+    }
+
+    public int nextIdx(int i, int move, int n) {
+        int val = (i + move) % n;
+        return val >= 0 ? val : n + val;
+    }
+
+
+
+
+    public boolean circularArrayLoop_(int[] nums) {
         if (nums.length <= 1) return false;
 
         Set<Integer> set = new HashSet<>();
