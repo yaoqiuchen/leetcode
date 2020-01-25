@@ -6,7 +6,8 @@ import java.util.List;
 
 /**
  495. 提莫攻击
- 在《英雄联盟》的世界中，有一个叫 “提莫” 的英雄，他的攻击可以让敌方英雄艾希（编者注：寒冰射手）进入中毒状态。现在，给出提莫对艾希的攻击
+ 在《英雄联盟》的世界中，有一个叫 “提莫” 的英雄，他的攻击可以让敌方英雄艾希（编者注：寒冰射手）进入中毒状态。
+ 现在，给出提莫对艾希的攻击
  时间序列和提莫攻击的中毒持续时间，你需要输出艾希的中毒状态总时长。
 
  你可以认为提莫在给定的时间点进行攻击，并立即使艾希处于中毒状态。
@@ -38,7 +39,21 @@ public class M495 {
 //        new M15().threeSum(new int[] {-2,0,0,2,2});
 //    }
 
+
     public int findPoisonedDuration(int[] timeSeries, int duration) {
+        int res = 0, end = -1;
+        for (int i = 0; i < timeSeries.length; i++) {
+            int nextEnd = duration + timeSeries[i] - 1;
+            if (nextEnd >= end) {
+                res += Math.min(nextEnd-end, duration);
+            }
+            end = nextEnd;
+        }
+
+        return res;
+    }
+
+    public int findPoisonedDuration_(int[] timeSeries, int duration) {
         int sum = 0;
         for (int i = 0, next = 0; i < timeSeries.length; i++) {
             int time = ((timeSeries[i] - next) > 0 ? 0 : timeSeries[i] - next) + duration;
