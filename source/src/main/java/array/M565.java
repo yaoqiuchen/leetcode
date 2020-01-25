@@ -5,9 +5,11 @@ import java.util.*;
 /**
  565. 数组嵌套
 
- 索引从0开始长度为N的数组A，包含0到N - 1的所有整数。找到并返回最大的集合S，S[i] = {A[i], A[A[i]], A[A[A[i]]], ... }且遵守以下的规则。
+ 索引从0开始长度为N的数组A，包含0到N - 1的所有整数。找到并返回最大的集合S，
+ S[i] = {A[i], A[A[i]], A[A[A[i]]], ... }且遵守以下的规则。
 
- 假设选择索引为i的元素A[i]为S的第一个元素，S的下一个元素应该是A[A[i]]，之后是A[A[A[i]]]... 以此类推，不断添加直到S出现重复的元素。
+ 假设选择索引为i的元素A[i]为S的第一个元素，S的下一个元素应该是A[A[i]]，之后是A[A[A[i]]]...
+ 以此类推，不断添加直到S出现重复的元素。
 
  示例 1:
 
@@ -30,7 +32,32 @@ public class M565 {
         new M565().arrayNesting(new int[] {5,4,0,3,1,6,2});
     }
 
+    // 2020-1-26
     public int arrayNesting(int[] nums) {
+        int res = 0, n = nums.length;
+        if (n == 0) return 0;
+
+        // 解题点：每个环只会循环一次，一旦某个节点访问过了，那就不用在访问
+        Set<Integer> visited = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            int len = 0, next = i;
+            if (visited.contains(i)) continue;
+
+            while (!visited.contains(next)) {
+                visited.add(next);
+                len++;
+                next = nums[next];
+            }
+            res = Math.max(res, len);
+         }
+        return res;
+    }
+
+
+
+
+
+    public int arrayNesting_(int[] nums) {
         int max = 0;
         // dp[i]表示从数值i为起点，达到回路的长度
         int[] dp = new int[nums.length];
