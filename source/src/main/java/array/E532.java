@@ -6,7 +6,8 @@ import java.util.Set;
 
 /**
  532. 数组中的K-diff数对
- 给定一个整数数组和一个整数 k, 你需要在数组里找到不同的 k-diff 数对。这里将 k-diff 数对定义为一个整数对 (i, j), 其中 i 和 j 都是数组
+ 给定一个整数数组和一个整数 k, 你需要在数组里找到不同的 k-diff 数对。这里将 k-diff 数对定义为一个整数对 (i, j),
+ 其中 i 和 j 都是数组
  中的数字，且两数之差的绝对值是 k.
 
  示例 1:
@@ -37,8 +38,60 @@ public class E532 {
         new E532().findPairs(new int[] {3,1,1,4,5}, 2);
     }
 
-    // 有点浪费空间和时间的做法
+
+    // 2020-1-25
     public int findPairs(int[] nums, int k) {
+        Arrays.sort(nums);
+        int count = 0, l = 0, h = 1;
+
+        Set<Integer> filter = new HashSet<>();
+        while (l < h && h < nums.length) {
+            int gap = nums[h] - nums[l];
+            if (gap == k) {
+                if (nums[h] != nums[h-1] && (l == 0 || nums[l] != nums[l-1])) {
+                    count++;
+                } else if (k == 0 && !filter.contains(nums[h])) {
+                    count++;
+                    filter.add(nums[h]);
+                }
+                l++;
+                h++;
+            }
+            else if (gap < k) h++;
+            else if (gap > k) {
+                l++;
+                h = (l==h) ? h+1 : h;
+            }
+        }
+
+        return count;
+
+
+
+//        int[] arr = Arrays.stream(nums).distinct().sorted().toArray();
+//        int count = 0;
+//
+//        int l = 0, h = 1;
+//        while (l < h && h < arr.length) {
+//            int gap = arr[h] - arr[l];
+//            if (gap == k) {
+//                count++;
+//                l++;
+//                h++;
+//            }
+//            else if (gap < k) h++;
+//            else if (gap > k) {
+//                l++;
+//                h = (l==h) ? h+1 : h;
+//            }
+//        }
+//
+//        return count;
+    }
+
+
+    // 有点浪费空间和时间的做法
+    public int findPairs_(int[] nums, int k) {
         if (k < 0) return 0;
         Arrays.sort(nums);
         int count = 0;
