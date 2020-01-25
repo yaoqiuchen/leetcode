@@ -47,7 +47,24 @@ public class E566 {
 //        new E566().arrayNesting(new int[] {5,4,0,3,1,6,2});
     }
 
+    // 2020-1-26
     public int[][] matrixReshape(int[][] nums, int r, int c) {
+        int m = nums.length, n = nums[0].length;
+        if (m*n != r*c) return nums;
+
+        int[][] res = new int[r][c];
+        for (int i = 0, count = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int x = count / c, y = count % c;
+                res[x][y] = nums[i][j];
+                count++;
+            }
+        }
+        return res;
+    }
+
+
+    public int[][] matrixReshape_(int[][] nums, int r, int c) {
         int m = nums.length, n = nums[0].length;
         if (m * n < r * c) return nums;
 
