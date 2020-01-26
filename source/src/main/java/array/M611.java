@@ -63,6 +63,28 @@ public class M611 {
         return res;
     }
 
+    // 标准答案，双指针法，性能最好
+    public int triangleNumber_1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int ans = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            int left = 0, right = i - 1;
+            while (left < right) {
+                if (nums[left] + nums[right] > nums[i]) {
+                    ans += right - left;
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+
+        return ans;
+    }
 
 
     // 正确答案，但是性能不好
