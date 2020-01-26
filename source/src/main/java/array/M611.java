@@ -26,8 +26,47 @@ public class M611 {
         new M611().triangleNumber(new int[] {2,2,3,4});
     }
 
-    // 正确答案，但是性能不好
+
+    // 2020-1-26
     public int triangleNumber(int[] nums) {
+        if (nums == null || nums.length <=2) return 0;
+
+        Arrays.sort(nums);
+        int res = 0;
+        // 三角形第一个短边，从0到倒数第三个数字
+        for (int i = 0; i < nums.length-2; i++) {
+            // 三角形第二个短边，从i+1到倒数第二个数字
+            for (int j = i+1; j < nums.length-1; j++) {
+
+                // 只要找到最小的大于等于sum的第三条边就可以，用二分查找
+                int sum = nums[i] + nums[j];
+                int l = j+1, h = nums.length - 1, target = l;
+                while (l <= h) {
+                    int mid = (l+h)/2;
+                    if (nums[mid] == sum) {
+                        target = mid;
+                        break;
+                    }
+                    if (nums[mid] < sum) l = mid+1;
+                    else h = mid-1;
+                    target = l;
+                }
+                // 如果target正好等于sum，而同时有多个值都和target相同，那么要移动指针
+                while (target>j+1 && nums[target-1] == sum) {
+                    target--;
+                }
+                // 如果target小于sum，那么要往右侧移动，找到第一个不满足的数字
+                while (target < nums.length && nums[target] < sum) target++;
+                res += (target - j - 1);
+            }
+        }
+        return res;
+    }
+
+
+
+    // 正确答案，但是性能不好
+    public int triangleNumber_(int[] nums) {
         int count = 0;
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
