@@ -28,7 +28,19 @@ public class E628 {
 //        new E628().leastInterval(input, 2);
     }
 
+    // 2020-1-26
     public int maximumProduct(int[] nums) {
+        int n = nums.length-1;
+        Arrays.sort(nums);
+        return Math.max(nums[n] * nums[n-1] * nums[n-2], nums[0]*nums[1]*nums[n]);
+    }
+
+
+
+
+
+
+    public int maximumProduct_(int[] nums) {
         Arrays.sort(nums);
         int i = nums.length - 1;
         return Math.max(nums[i] * nums[i-1]*nums[i-2], nums[0] * nums[1] * nums[i]);
