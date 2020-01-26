@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 /**
  661. 图片平滑器
- 包含整数的二维矩阵 M 表示一个图片的灰度。你需要设计一个平滑器来让每一个单元的灰度成为平均灰度 (向下舍入) ，平均灰度的计算是周围的8个单
+ 包含整数的二维矩阵 M 表示一个图片的灰度。你需要设计一个平滑器来让每一个单元的灰度成为平均灰度 (向下舍入) ，
+ 平均灰度的计算是周围的8个单
  元和它本身的值求平均，如果周围的单元格不足八个，则尽可能多的利用它们。
 
  示例 1:
@@ -32,8 +33,35 @@ public class E661 {
         new E661().imageSmoother(new int[][] { {1,1,1}, {1,0,1},{1,1,1} });
     }
 
-    // 动态规划
+
+    // 2020-1-26
+    // 向量加法反而比动态规划效率更高
     public int[][] imageSmoother(int[][] M) {
+        if (M.length == 0) return M;
+        int[][] dir = new int[][] {{-1,-1},{-1,0},{-1,1},{0,-1},{0,0},{0,1},{1,-1},{1,0},{1,1}};
+
+        int m = M.length, n = M[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int count = 0, total = 0;
+                for (int[] node : dir) {
+                    int x = i+node[0], y = j+node[1];
+                    if (x<0 || y<0 || x>=m || y>=n) continue;
+                    total += M[x][y];
+                    count++;
+                }
+                res[i][j] = total/count;
+            }
+        }
+        return res;
+    }
+
+
+
+
+    // 动态规划
+    public int[][] imageSmoother_(int[][] M) {
         int m = M.length, n = M[0].length;
         int[][] dp = new int[m][n];
         for (int i = 0; i < m; i++) {
