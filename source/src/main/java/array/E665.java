@@ -24,8 +24,46 @@ public class E665 {
         new E665().checkPossibility(new int[] {2,3,3,2,4});
     }
 
-    // 遇到问题两个方案，前一个数字变小，后一个数字变大
+    // 2020-1-27
     public boolean checkPossibility(int[] nums) {
+        if (nums.length <= 2) return true;
+
+        // 对nums[i]来讲，min是num[i-1]可以变成的最小数字
+        int min = Integer.MIN_VALUE;
+        int count = 0;
+        for (int i = 1; i < nums.length; i++) {
+            int val = nums[i];
+            if (val >= nums[i-1]) {
+                min = nums[i-1];
+                continue;
+            }
+            if (count > 0) return false;
+
+            // val < nums[i-1], 这里必定有变化，要么前一个数字变小，要么当前数字变大
+            // 假如将前一个数nums[i-1]变小，则最小不能小过min
+
+            // 因此，如果val比min还小，即使前一个数字变小了也没用，
+            // 那么只能将val变大到和num[i-1]一样
+            if (val<min) {
+                nums[i] = nums[i-1];
+                min = nums[i-1];
+            } else {
+                // 否则可以将前一个数字变小
+                nums[i-1]=min;
+            }
+            count++;
+        }
+
+        return true;
+    }
+
+
+
+
+
+
+    // 遇到问题两个方案，前一个数字变小，后一个数字变大
+    public boolean checkPossibility_(int[] nums) {
         if (nums.length <= 0) return true;
 
         int dp[][] = new int[nums.length][2];
