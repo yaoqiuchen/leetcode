@@ -26,7 +26,31 @@ public class E643 {
         new E643().findMaxAverage(new int[] {-1}, 1);
     }
 
+    // 2020-1-26
     public double findMaxAverage(int[] nums, int k) {
+        int n = nums.length;
+        if (n < k) return 0;
+
+        int total = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int i = 0; i+k-1<nums.length; i++) {
+            // 初始化
+            if (total == Integer.MAX_VALUE) {
+                total = Arrays.stream(nums, 0, k).sum();
+            } else {
+                total += nums[i+k-1];
+                total -= nums[i-1];
+            }
+            max = Math.max(max, total);
+        }
+        return max / (double) k;
+    }
+
+
+
+
+
+
+    public double findMaxAverage_(int[] nums, int k) {
         double max = -Double.MAX_VALUE;
         if (nums.length < k) return 0;
 
