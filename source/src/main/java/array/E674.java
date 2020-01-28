@@ -28,7 +28,26 @@ public class E674 {
         new E674().findLengthOfLCIS(new int[] {1,3,5,6});
     }
 
+
+    // 2020-1-28
     public int findLengthOfLCIS(int[] nums) {
+        int res = 0, len = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0 || nums[i] > nums[i-1]) {
+                len++;
+            } else {
+                len = 1;
+            }
+            res = Math.max(res, len);
+        }
+        return res;
+    }
+
+
+
+
+
+    public int findLengthOfLCIS_(int[] nums) {
         int count = nums.length > 0 ? 1 : 0;
         int max = count;
 
