@@ -32,10 +32,41 @@ import java.util.Queue;
 public class M695 {
 
     public static void main(String[] args) {
-        new M695().maxAreaOfIsland(new int[][] {{1,1,0,0,0}, {1,1,0,0,0}, {0,0,0,1,1}, {0,0,0,1,1}});
+        new M695().maxAreaOfIsland(new int[][] {{0,1}});
     }
 
     public int maxAreaOfIsland(int[][] grid) {
+        if (grid.length == 0) return 0;
+        int m = grid.length, n = grid[0].length;
+        int max = Integer.MIN_VALUE;
+
+        boolean[][] dp = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int count = count(grid, dp, i, j);
+                max = Math.max(max, count);
+            }
+        }
+        return max;
+    }
+
+    public int count(int[][] grid, boolean[][] dp, int x, int y) {
+        if (x < 0 || y < 0 || x >= grid.length || y >= grid[0].length
+                || dp[x][y] || grid[x][y] == 0) {
+            return 0;
+        }
+
+        int sum = 1;
+        dp[x][y] = true;
+        sum += count(grid, dp, x-1, y);
+        sum += count(grid, dp, x, y+1);
+        sum += count(grid, dp, x+1, y);
+        sum += count(grid, dp, x, y-1);
+        return sum;
+    }
+
+
+    public int maxAreaOfIsland_(int[][] grid) {
         int max = 0, m = grid.length, n = grid[0].length;
         boolean[][] visited = new boolean[m][n];
 
