@@ -25,10 +25,71 @@ package array;
 public class D689 {
 
     public static void main(String[] args) {
-       new D689().maxSumOfThreeSubarrays(new int[] {7,13,20,19,19,2,10,1,1,19}, 3);
+       new D689().maxSumOfThreeSubarrays(new int[] {17,8,14,11,13,9,4,19,20,6,1,20,6,5,19,8,5,16,20,17}, 5);
     }
 
+
+    // 2020-1-28 不如之前的解法好
     public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
+        if (3*k > nums.length) return new int[]{};
+
+        int n = nums.length;
+        int[] sumDp = new int[n];
+
+        // 从左往右，ldp[i]表示截止i为止，靠左边最大的组合的下标位置
+        int[] ldp = new int[n];
+        for (int i=0, max=0, sum=0; i<n; i++) {
+            sumDp[i] += ((i==0?0:sumDp[i-1]) + nums[i]);
+            if (i<k) {
+                sum = sumDp[i];
+                max = sum;
+            } else {
+                sum += nums[i] - nums[i-k];
+                if (sum > max) {
+                    ldp[i] = i-k+1;
+                    max = sum;
+                } else ldp[i] = ldp[i-1];
+            }
+        }
+
+        // 从右往左，rdp[i]表示截止i为止，靠右边最大的组合的下标位置
+        int[] rdp = new int[n];
+        for (int i=n-1, max=0, sum=0; i>=0+k*2; i--) {
+            if (i>=n-k) {
+                sum += nums[i];
+                rdp[i] = n-k;
+                max = sum;
+            } else {
+                sum += nums[i] - nums[i+k];
+                if (sum >= max) {
+                    rdp[i] = i;
+                    max = sum;
+                } else rdp[i] = rdp[i+1];
+            }
+        }
+
+        int max = Integer.MIN_VALUE;
+        int[] res = new int[3];
+        // 先选中了中间的元素，然后往两头找
+        for (int i = k; i <= n-k*2; i++) {
+            int sum = sumDp[i+k-1] - sumDp[i-1];
+            int left = ldp[i-1];
+            int right = rdp[i+k];
+            sum += sumDp[left+k-1] - (left>0 ? sumDp[left-1]:0);
+            sum += sumDp[right+k-1] - sumDp[right-1];
+            if (sum > max) {
+                max = sum;
+                res = new int[] {ldp[i-1], i, rdp[i+k]};
+            }
+        }
+
+        return res;
+    }
+
+
+
+
+    public int[] maxSumOfThreeSubarrays_(int[] nums, int k) {
         int n = nums.length;
         int dp[] = new int[n];
         for (int i = n - 1; i >= 0; i--) {
