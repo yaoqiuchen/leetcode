@@ -37,11 +37,43 @@ public class E697 {
         new E697().findShortestSubArray(new int[] {1,2,2,3,1,4,2});
     }
 
-    // 空间负责度高，想法比较简单省事
+
+    // 2020-1-30
     public int findShortestSubArray(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) return n;
+
+        int max = 0, len = Integer.MAX_VALUE;
+        // dp[i][0]表示数字i出现的次数
+        // dp[i][1]表示第一次出现时候的位置
+        int[][] dp = new int[50000][2];
+        for (int i = 0; i < n; i++) {
+            int val = nums[i];
+            if (dp[val][0] == 0) {
+                dp[val][1] = i;
+            }
+            dp[val][0]++;
+
+            if (max < dp[val][0]) {
+                max = dp[val][0];
+                len = i-dp[val][1]+1;
+            } else if (max == dp[val][0]) {
+                len = Math.min(len, i-dp[val][1]+1);
+            }
+        }
+
+        return len;
+    }
+
+
+    // 空间负责度高，想法比较简单省事
+    public int findShortestSubArray_(int[] nums) {
         int max = 1;
 
         int[][] dp = new int[50000][3];
+        // dp[i][0] 是数字i的个数
+        // dp[i][1] 是数字i第一次出现的下标
+        // dp[i][2] 是数字i最后一次出现的下标
         dp[nums[0]][0] = 1;
         dp[nums[0]][1] = 0;
         dp[nums[0]][2] = 0;
