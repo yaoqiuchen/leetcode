@@ -25,7 +25,47 @@ public class M713 {
         new M713().numSubarrayProductLessThanK(new int[] {10, 5, 2, 6}, 100);
     }
 
+
+    // 2020-1-30
     public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        // dp[i] = 当前为i的子数组的个数
+        int[] dp = new int[n];
+        int l = 0, h = 0, sum = nums[0], count = 0;
+
+        // 每次满足条件 -> h++; 否则l++; 若l==h但是还不满足条件，则h++;
+        // 当每次满足条件以后，count + (字符串长度)，因为新加入的字母可以和前面每一个字符组成组合
+        while (l <= h && h < n) {
+            if (sum < k) {
+                h++;
+                count += (h-l);
+                sum *= (h < n ? nums[h] : 1);
+            }
+            // sum>=k，收缩l
+            else if (l < h) {
+                sum /= nums[l];
+                l++;
+            }
+            // sum >= k，且l==h，扩大h，再收缩l
+            else {
+                sum /= nums[l];
+                l++;
+                h++;
+                sum *= (h < n ? nums[h] : 1);
+            }
+        }
+        return count;
+    }
+
+
+
+
+
+
+
+    public int numSubarrayProductLessThanK_(int[] nums, int k) {
         int n=nums.length;
         int l=0,r=0;
         int ans=0;
