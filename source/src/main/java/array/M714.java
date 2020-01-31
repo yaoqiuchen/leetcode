@@ -28,7 +28,36 @@ package array;
 
  */
 public class M714 {
+
+
+    // 2020-1-31
     public int maxProfit(int[] prices, int fee) {
+        if (prices == null || prices.length <= 1) return 0;
+        int n = prices.length;
+
+        //buy表示最后一步操作是buy的最大获利
+        //sell表示最后一步是sell时的最大获利
+        int[] buy = new int[n], sell = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int price = prices[i];
+            if (i == 0) {
+                buy[i] -= price;
+                continue;
+            }
+            // 前一天买，或者前一天卖今天买
+            buy[i] = Math.max(buy[i-1], sell[i-1]-price);
+            sell[i] = Math.max(sell[i-1], buy[i-1]+price-fee);
+        }
+        return sell[n-1];
+    }
+
+
+
+
+
+
+    public int maxProfit_(int[] prices, int fee) {
         int n = prices.length;
         int buy[] = new int[n];
         int sell[] = new int[n];
