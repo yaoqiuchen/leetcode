@@ -37,13 +37,73 @@ public class M729 {
 //        new M16().threeSumClosest(new int[] {0,2,1,-3}, 1);
 //    }
 
+
+
     Map<Integer, Integer> cal = new TreeMap<>();
 
-    public M729() {
+    // 数组int[i][0]表示start,int[i][1]表示end
+    int[][] cal2 = new int[1000][2];
+    int n = 0;
 
+    // TODO
+    public boolean book(int start, int end) {
+        if (n == cal2.length) {
+            int[][] tmp = new int[n*2][2];
+            Integer i = 1;
+
+        }
+        if (n == 0) {
+            cal2[0] = new int[] {start, end};
+            n++;
+            return true;
+        }
+
+        // 用二分查找
+        int l = 0, h = n-1, res = l;
+        while (l <= h) {
+            int mid = (l+h)/2, val = cal2[mid][0];
+            if (val == start) {
+                return false;
+            }
+            if (val < start) l = mid+1;
+            else h = mid-1;
+            res = mid;
+        }
+
+        // res如果落在范围内，扔掉
+        if (!(cal2[res][1] <= start || cal2[res][0] >= end)) {
+            return false;
+        }
+        // res前一个数字，如果落在范围内，扔掉
+        if (res>0 && !(cal2[res-1][1] <= start || cal2[res-1][0] >= end)) {
+            return false;
+        }
+        // res后一个数字，如果落在范围内，扔掉
+        if (res<n && !(cal2[res+1][1] <= start || cal2[res+1][0] >= end)) {
+            return false;
+        }
+
+        cal2[n] = new int[] {start, end};
+        n++;
+        Arrays.sort(cal2, 0, n, (a,b) -> a[0] - b[0]);
+        return true;
     }
 
-    public boolean book(int start, int end) {
+    public static void main(String[] args) {
+        int[][] arr = new int[][] {{47,50},{33,41},{25,32},{19,25}};
+        Arrays.sort(arr, (a, b) -> {
+            return a[0] - b[0];
+        });
+
+        M729 s = new M729();
+        s.book(47, 50);
+        s.book(33, 41);
+        s.book(25, 32);
+        s.book(19, 25);
+        return;
+    }
+
+    public boolean book_(int start, int end) {
         Iterator<Map.Entry<Integer, Integer>> i = cal.entrySet().iterator();
         boolean included = false;
         while (i.hasNext()) {
