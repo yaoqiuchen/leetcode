@@ -20,7 +20,27 @@ package array;
 
  */
 public class M718 {
+
+    // 2020-1-31
     public int findLength(int[] A, int[] B) {
+        int max = 0;
+        // dp[i][j]表示以A[i]和B[j]结尾的字符串max长度
+        int[][] dp = new int[A.length][B.length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < B.length; j++) {
+                if (A[i] != B[j]) {
+                    continue;
+                }
+                dp[i][j] = (i == 0 || j == 0) ? 1 : dp[i-1][j-1]+1;
+                max = Math.max(dp[i][j], max);
+            }
+        }
+
+        return max;
+    }
+
+
+    public int findLength_(int[] A, int[] B) {
         int max = 0;
         int dp[][] = new int[A.length][B.length];
 
