@@ -37,7 +37,24 @@ public class E724 {
 //        new E566().arrayNesting(new int[] {5,4,0,3,1,6,2});
     }
 
+    // 2020-1-31
     public int pivotIndex(int[] nums) {
+        int n = nums.length;
+        if (nums.length <= 1) return n-1;
+
+        int sum = Arrays.stream(nums).sum();
+        int left = 0;
+        for (int i = 0; i < n; i++) {
+            if (sum - left - nums[i] == left) {
+                return i;
+            }
+            left += nums[i];
+        }
+        return -1;
+    }
+
+
+    public int pivotIndex_(int[] nums) {
         if (nums.length == 0) return -1;
 
         int sum = Arrays.stream(nums).sum();
