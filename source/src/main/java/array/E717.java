@@ -29,7 +29,35 @@ package array;
  */
 public class E717 {
 
-    public boolean isOneBitCharacter(int[] bits) {
+    public static void main(String[] args) {
+        isOneBitCharacter(new int[] {1,1,1,0});
+    }
+
+    // 2020-1-31
+    public static boolean isOneBitCharacter(int[] bits) {
+        int n = bits.length;
+        // 倒数第二个数如果是0，那尾数必定为单比特字符
+        if (bits == null || n <= 1 || bits[n-2] == 0) {
+            return true;
+        }
+
+        // dp[i]表示当前一个数字是否等待配对
+        boolean[] dp = new boolean[n];
+        dp[0] = bits[0] == 1;
+
+        for (int i = 1; i < n-1; i++) {
+            int val = bits[i];
+            if (val == 1) {
+                // 如果前一个数字等待配对，那么当前就算配上了，也就是说dp[i]不等待配对
+                // 如果前一个数字是0，那么当前必须等待配对
+                dp[i] = !dp[i-1] || bits[i-1] == 0;
+            }
+        }
+        return !dp[n-2];
+    }
+
+
+    public boolean isOneBitCharacter_(int[] bits) {
         int n = bits.length;
         // 如果倒数第二位为1，那么最后两个数可以组成而比特。
         // 此时，只要看0到n-3位的这些数字是否可以满足排列要求即可
