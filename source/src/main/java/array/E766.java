@@ -48,7 +48,28 @@ public class E766 {
         new E766().isToeplitzMatrix(new int[][] {{44,35,39},{15,44,35},{17,15,44},{80,17,15},{43,80,0},{77,43,80}});
     }
 
+    // 2020-2-3
     public boolean isToeplitzMatrix(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        if (matrix.length == 1 || matrix[0].length == 1) {
+            return true;
+        }
+        boolean isToeplit = true;
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
+                if (matrix[i][j] != matrix[i-1][j-1]) {
+                    return false;
+                }
+            }
+        }
+
+        return isToeplit;
+    }
+
+
+    public boolean isToeplitzMatrix_(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
 
         for (int i = 1; i < m; i++) {
