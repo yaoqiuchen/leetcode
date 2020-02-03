@@ -33,7 +33,22 @@ import java.util.Arrays;
  */
 public class E747 {
 
+    // 2020-2-3
     public int dominantIndex(int[] nums) {
+        int max = -1, second = -1, idx = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] >= max) {
+                second = max;
+                max = nums[i];
+                idx = i;
+            } else if (nums[i] > second) {
+                second = nums[i];
+            }
+        }
+        return max >= second * 2 ? idx : -1;
+    }
+
+    public int dominantIndex_(int[] nums) {
         if (nums.length == 1) return 0;
 
         int max = 0, idx = 0;
