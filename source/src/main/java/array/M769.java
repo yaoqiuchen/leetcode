@@ -7,7 +7,8 @@ import java.util.List;
 /**
  769. 最多能完成排序的块
 
- 数组arr是[0, 1, ..., arr.length - 1]的一种排列，我们将这个数组分割成几个“块”，并将这些块分别进行排序。之后再连接起来，使得连接的结果和按升序排序后的原数组相同。
+ 数组arr是[0, 1, ..., arr.length - 1]的一种排列，我们将这个数组分割成几个“块”，
+ 并将这些块分别进行排序。之后再连接起来，使得连接的结果和按升序排序后的原数组相同。
 
  我们最多能将数组分成多少块？
 
@@ -36,12 +37,61 @@ public class M769 {
         new M769().maxChunksToSorted(new int[] {1,4,0,2,3,5});
     }
 
+    // 2020-2-3
+    public int maxChunksToSorted(int[] arr) {
+        int[] copy = Arrays.copyOf(arr, arr.length);
+        Arrays.sort(copy);
+
+//        0,1,2,6,7,3,5,4
+//        0,1,2,3,4,5,6,7
+        int count = 0, next = -1;
+        boolean inGroup = false;
+        for (int i = 0; i < arr.length; i++) {
+            int val = arr[i];
+            // 当前数字正好匹配，而且又没在group里面，
+            // 就是说当前这个字母可以单独成一个组
+            if (!inGroup && i == val) {
+                count++;
+                continue;
+            }
+            // 接下来都是组内情况了
+
+            // val更大，那就要有一个新的组
+            if (next < val) {
+                inGroup = true;
+                next = val;
+            }
+            // 如果正好循环到了next那就要关闭组了
+            else if (next == i){
+                count++;
+                inGroup = false;
+            }
+            // 如果val更小那就当什么都没发生
+            else if (val < next) {
+
+            }
+        }
+
+        return count;
+    }
+
+    public int maxChunksToSorted(int[] arr, int start, int end) {
+        int count = 0;
+        if (start == end) {
+            return 1;
+        }
+        for (int i = start; i <= end; i++) {
+
+        }
+        return count;
+    }
+
     // dp[i][0]表示下标i之处最大组数，dp[i][1]表示next下标处
     // 构造动态转移方程即可
     // 如果arr[i] == i，当i>next的时候，组数+1
     // 如果arr[i] > i, 比较i和next的位置，如果i>next, 组数+1， dp[i][0] = dp[i-1][0] + 1
     // 如果arr[i] < i, 比较i和dp[arr[i]-1][1]的位置，如果i大, 组数+1， dp[i][0] = dp[i-1][0] + 1
-    public int maxChunksToSorted(int[] arr) {
+    public int maxChunksToSorted_(int[] arr) {
 
         int dp[][] = new int[arr.length][2];
         int next = 0;
