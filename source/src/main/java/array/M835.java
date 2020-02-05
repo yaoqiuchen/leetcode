@@ -32,10 +32,36 @@ import java.util.Arrays;
  */
 public class M835 {
 
+    // 2020-205
+    public int largestOverlap(int[][] A, int[][] B) {
+        int n = A.length;
+        // i是横坐标偏移量，j是纵坐标偏移量
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int count = calculate(A, B, i, j);
+                int count2 = calculate(B, A, i, j);
+                max = Math.max(max, Math.max(count, count2));
+            }
+        }
+        return max;
+    }
+
+    public int calculate(int[][] A, int[][] N, int x, int y) {
+        int count = 0;
+        for (int i = x; i < A.length; i++) {
+            for (int j = y; j < A.length; j++) {
+                if (A[i][j] == 1 && N[i-x][j-y] == 1) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 
     // 不用真正的移动数字，只要设置起始的搜索点，就相当于移动了数字
     // 比如从A[1][0]开始搜索，相当于向上移动一次
-    public int largestOverlap(int[][] A, int[][] B) {
+    public int largestOverlap_(int[][] A, int[][] B) {
         int max = 0;
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
