@@ -1,6 +1,7 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,10 +34,35 @@ import java.util.List;
 public class E830 {
 
     public static void main(String[] args) {
-        new E830().largeGroupPositions("abbxxxxzzy");
+        new E830().largeGroupPositions("abcdddeeeeaabbbcd");
     }
 
+    // 2020-2-5
     public List<List<Integer>> largeGroupPositions(String S) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0, len = 0, target = S.charAt(0); i < S.length(); i++) {
+            int val = S.charAt(i);
+            if (val == target) {
+                len++;
+                // 下一个如果还是连续数字，那么先不做动作
+                if (i+1 < S.length() && S.charAt(i+1) == target) {
+                    continue;
+                }
+                if (len >= 3) {
+                    res.add(Arrays.asList(i-len+1, i));
+                }
+                len = 0;
+            } else {
+                len = 1;
+                target = val;
+            }
+        }
+
+        return res;
+    }
+
+
+    public List<List<Integer>> largeGroupPositions_(String S) {
         List<List<Integer>> res = new ArrayList<>();
 
         for (int i = 0, count = 0, c = S.charAt(0); i <= S.length(); i++) {
