@@ -42,8 +42,58 @@ public class E840 {
         new E840().numMagicSquaresInside(new int[][] {{4,3,8,4},{9,5,1,9},{2,7,6,2}});
     }
 
-    // 方法笨死了
+    // 2020-2-5
     public int numMagicSquaresInside(int[][] grid) {
+        if (grid.length <3 || grid[0].length < 3) {
+            return 0;
+        }
+
+        int count = 0;
+        for (int i = 0; i < grid.length-2; i++) {
+            boolean lastGood = false;
+            for (int j = 0; j < grid[0].length-2; ) {
+                int target = grid[i][j] + grid[i+1][j] + grid[i+2][j];
+                if (good(grid, i, j, target)) {
+                    count++;
+                    j++;
+                    lastGood = true;
+                } else {
+                    j = lastGood ? j + 2 : j+1;
+                }
+            }
+        }
+        return count;
+    }
+
+    public boolean good(int[][] grid, int x, int y, int target) {
+        int[] dp = new int[9];
+        for (int i = 0; i < 3; i++) {
+            if (grid[x+i][y] + grid[x+i][y+1] + grid[x+i][y+2] != target
+                    || grid[x+i][y] <= 0 || grid[x+i][y] > 9
+                    || grid[x+i][y+1] <= 0 || grid[x+i][y+1] > 9
+                    || grid[x+i][y+2] <= 0 || grid[x+i][y+2] > 9) {
+                return false;
+            }
+            if (grid[x][y+i] + grid[x+1][y+i] + grid[x+2][y+i] != target) {
+                return false;
+            }
+            dp[grid[x+i][y]-1] = 1;
+            dp[grid[x+i][y+1]-1] = 1;
+            dp[grid[x+i][y+2]-1] = 1;
+        }
+        if (grid[x][y] + grid[x+1][y+1] + grid[x+2][y+2] != target
+            || grid[x+2][y] + grid[x+1][y+1] + grid[x][y+2] != target) {
+            return false;
+        }
+
+        if (Arrays.stream(dp).filter(i -> i == 0).count() > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    // 方法笨死了
+    public int numMagicSquaresInside_(int[][] grid) {
         int m = grid.length, n = grid[0].length;
         if (m < 3 || n < 3) return 0;
 
