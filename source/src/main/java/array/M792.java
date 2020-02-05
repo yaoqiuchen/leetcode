@@ -23,11 +23,63 @@ import java.util.*;
 public class M792 {
 
     public static void main(String[] args) {
-        new M792().numMatchingSubseq("abcde", new String[] {"a","bb","adc","ace"});
+        new M792().numMatchingSubseq("abcde", new String[] {"a","bb","acd","ace"});
 
     }
 
+    // 2020-2-5
     public int numMatchingSubseq(String S, String[] words) {
+        // key是字母，value是在string里该字母出现的每一个位子
+        Map<Integer, List<Integer>> idx = new HashMap<>();
+        for (int i = 0; i < S.length(); i++) {
+            int val = S.charAt(i) - 'a';
+            List<Integer> line = idx.getOrDefault(val, new ArrayList<>());
+            line.add(i);
+            idx.put(val, line);
+        }
+
+        int count = 0;
+        nextWord : for (String str : words) {
+            // 如果str长度本身就大于S，那么直接丢弃，节省时间
+            if (str.length() > S.length()) continue;
+
+            int pos = 0;
+            boolean match = true;
+            nextChar: for (char character : str.toCharArray()) {
+                // 如果找不到就直接跳到nextword，或者pos已经比数组最后一个元素下标还大了，也跳过
+                List<Integer> line = idx.get(character-'a');
+                if (line == null || pos > line.get(line.size()-1)) {
+                    continue nextWord;
+                }
+
+                // 二分查找，找到第一个>=pos的数字
+                int l = 0, h = line.size()-1;
+                while (l <= h) {
+                    int mid = (l+h)/2, val = line.get(mid);
+                    if (val == pos) {
+                        pos = val+1;
+                        continue nextChar;
+                    }
+                    if (val < pos) {
+                        l = mid+1;
+                    } else {
+                        h = mid-1;
+                    }
+                }
+                // 结果只可能是l,h，或者是h+1
+                int target = Integer.MAX_VALUE;
+                if (l < line.size() && pos < line.get(l)) target = line.get(l);
+                if (h >= 0 && pos < line.get(h)) target = Math.min(target, line.get(h));
+                if (h+1 < line.size() && pos < line.get(h+1)) target = Math.min(target, line.get(h+1));
+                if (target == Integer.MAX_VALUE) continue nextWord;
+                pos = target+1;
+            }
+            count = match ? count + 1 : count;
+        }
+        return count;
+    }
+
+    public int numMatchingSubseq_(String S, String[] words) {
         Map<Integer, List<Integer>> filter = new HashMap<>();
         for (int i = 0; i < S.length(); i++) {
             int idx = S.charAt(i) - 'a';
