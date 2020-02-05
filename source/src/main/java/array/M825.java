@@ -45,8 +45,41 @@ public class M825 {
         new M825().numFriendRequests(new int[] {2,1,4,3});
     }
 
-    // 有点慢
+    // 2020-2-5
+    // 超时 - 还是看之前的map解法
     public int numFriendRequests(int[] ages) {
+        Arrays.sort(ages);
+        int res = 0;
+        for (int i = 0; i < ages.length; i++) {
+            int age = ages[i];
+            // 要大于next
+            float next = next(age);
+            if (next > age) {
+                continue;
+            }
+
+            for (int j = 0; j < ages.length; j++) {
+                if (ages[j] > age) break;
+                if (ages[j] > next && i != j) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    // B要大于age/2+7，还要小于等于age
+    private float next(int age) {
+        return Math.min((age/2f+7), Float.valueOf(age));
+    }
+
+    private boolean inviteFriend(int a1, int a2) {
+        return Float.valueOf(a2) > (0.5f * a1 + 7) && a2 <= a1;
+    }
+
+
+    // 有点慢
+    public int numFriendRequests_(int[] ages) {
         Map<Integer, Integer> count = new TreeMap<>();
         int sum = 0;
         Arrays.stream(ages).forEach(e -> {
