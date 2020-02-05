@@ -35,7 +35,18 @@ public class E832 {
         new E832().flipAndInvertImage(new int[][] {{1,0,0,1}});
     }
 
+    // 2020-2-5
     public int[][] flipAndInvertImage(int[][] A) {
+        for (int[] line : A) {
+            int[] copy = line.clone();
+            for (int i = 0, n = line.length-1; i < line.length; i++) {
+                line[i] = copy[n-i] == 0 ? 1 : 0;
+            }
+        }
+        return A;
+    }
+
+    public int[][] flipAndInvertImage_(int[][] A) {
         int len = A[0].length;
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j <= len/2; j++) {
