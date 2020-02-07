@@ -30,7 +30,36 @@ public class M870 {
 //        new M15().threeSum(new int[] {-2,0,0,2,2});
 //    }
 
+    // 2020-2-7
     public int[] advantageCount(int[] A, int[] B) {
+        TreeMap<Integer, Integer> map = new TreeMap();
+        Arrays.stream(A).forEach(i -> {
+            if (map.containsKey(i)) {
+                map.put(i, map.get(i) + 1);
+            } else {
+                map.put(i, 1);
+            }
+        });
+
+        int[] res = new int[A.length];
+        for (int i = 0; i < B.length; i++) {
+            Map.Entry<Integer, Integer> entry = map.ceilingEntry(B[i]+1);
+            if (entry == null) {
+                entry = map.ceilingEntry(0);
+            }
+
+            res[i] = entry.getKey();
+            if (entry.getValue().equals(1)) {
+                map.remove(entry.getKey());
+            } else {
+                map.put(entry.getKey(), entry.getValue() - 1);
+            }
+        }
+
+        return res;
+    }
+
+    public int[] advantageCount_(int[] A, int[] B) {
         TreeMap<Integer, Integer> map = new TreeMap<>();
         Arrays.stream(A).forEach(e -> {
             if (map.containsKey(e)) map.put(e, map.get(e) + 1);
