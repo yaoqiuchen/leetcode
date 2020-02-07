@@ -43,7 +43,35 @@ public class M873 {
         new M873().lenLongestFibSubseq(new int[] {2,4,10,14,15,18,23,32,50});
     }
 
+
+    // 2020-2-7
     public int lenLongestFibSubseq(int[] A) {
+        int max = 0, n = A.length;
+        // dp[i][j]表示，上一个元素是i，这个元素是j，它的数列长度
+        int[][] dp = new int[n][n];
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            map.put(A[i], i);
+        }
+
+        for (int i = 2; i < A.length; i++) {
+            for (int j = i-1; j > 0; j--) {
+                int gap = A[i] - A[j];
+                Integer idx = map.get(gap);
+                if (idx == null || idx > j) {
+                    continue;
+                }
+                dp[j][i] = dp[idx][j] == 0 ? 3 : dp[idx][j] + 1;
+                max = Math.max(max, dp[j][i]);
+            }
+        }
+
+        return max;
+    }
+
+
+    public int lenLongestFibSubseq_(int[] A) {
         int max = 0, l = A.length;
         int[][] dp = new int[l][l];
 
