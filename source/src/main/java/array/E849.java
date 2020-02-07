@@ -1,5 +1,6 @@
 package array;
 
+import javax.jws.Oneway;
 import java.util.Arrays;
 
 /**
@@ -36,10 +37,31 @@ import java.util.Arrays;
 public class E849 {
 
     public static void main(String[] args) {
-        new E849().maxDistToClosest(new int[] {});
+        new E849().maxDistToClosest(new int[] {1,0,0,0,1,0,1});
     }
 
+
+    // 2020-2-5
     public int maxDistToClosest(int[] seats) {
+        int  max = 0;
+        int head = 0;
+        for (int i = 0, len = 0; i < seats.length; i++) {
+            if (seats[i] == 0) {
+                if (i == len) {
+                    head = i + 1;
+                } else if (i == seats.length - 1) {
+                    head = Math.max(head, len + 1);
+                }
+                len++;
+                max = Math.max(max, len);
+            } else {
+                len = 0;
+            }
+        }
+        return Math.max(head, max/2+max%2);
+    }
+
+    public int maxDistToClosest_(int[] seats) {
         int max = 0, head = 0, tail = 0;
         for (int i = 0, count = 0; i < seats.length; i++) {
             if (seats[i] == 0) {
