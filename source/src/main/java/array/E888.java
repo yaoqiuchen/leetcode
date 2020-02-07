@@ -1,6 +1,8 @@
 package array;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  888. 公平的糖果交换
@@ -16,8 +18,28 @@ import java.util.Arrays;
  */
 public class E888 {
 
-    // 性能稍好
+    // 2020-2-7
     public int[] fairCandySwap(int[] A, int[] B) {
+        int sumA = Arrays.stream(A).sum();
+        int sumB = Arrays.stream(B).sum();
+        int gap = (sumA - sumB)/2;
+
+        Set<Integer> pos = new HashSet<>();
+        Arrays.stream(B).forEach(e -> pos.add(e));
+
+        for (int i = 0; i < A.length; i++) {
+            int target = A[i] - gap;
+            if (target > 0 && pos.contains(target)) {
+                return new int[] {A[i], target};
+            }
+        }
+
+        return null;
+    }
+
+
+    // 性能稍好
+    public int[] fairCandySwap_(int[] A, int[] B) {
         Arrays.sort(A);
         Arrays.sort(B);
         int sumA = Arrays.stream(A).sum();
