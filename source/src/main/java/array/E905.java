@@ -26,6 +26,22 @@ public class E905 {
 
 
     public int[] sortArrayByParity(int[] A) {
+        int count = 0;
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] % 2 == 0 || A[i] == 0) {
+                if (i != count) {
+                    int tmp = A[i];
+                    A[i] = A[count];
+                    A[count] = tmp;
+                }
+                count++;
+            }
+        }
+        return A;
+    }
+
+
+    public int[] sortArrayByParity_(int[] A) {
 
         int idx = 0;
         for (int i = 0; i < A.length; i++) {
