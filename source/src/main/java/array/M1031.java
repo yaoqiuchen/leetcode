@@ -90,7 +90,9 @@ public class M1031 {
 
         int max = Integer.MIN_VALUE;
         for (int i = 0; i <= n-M-L+1; i++) {
+            // 第一个是L，第二个是M
             int count1 = dp[i][0] + dp2[i+L][1];
+            // 第一个是M，第二个是L
             int count2 = dp[i][1] + dp2[i+M][0];
             max = Math.max(max, Math.max(count1, count2));
         }
