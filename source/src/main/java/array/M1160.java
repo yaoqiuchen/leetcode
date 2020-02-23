@@ -1,67 +1,68 @@
 
 package array;
 
+import java.util.Arrays;
+
 /**
  *
- * 1035 不相交的线
+ * 1160 拼写单词
   
- 我们在两条独立的水平线上按给定的顺序写下 A 和 B 中的整数。
+ 给你一份『词汇表』（字符串数组） words 和一张『字母表』（字符串） chars。
 
- 现在，我们可以绘制一些连接两个数字 A[i] 和 B[j] 的直线，只要 A[i] == B[j]，且我们绘制的直线不与任何其他连线（非水平线）相交。
+ 假如你可以用 chars 中的『字母』（字符）拼写出 words 中的某个『单词』（字符串），那么我们就认为你掌握了这个单词。
 
- 以这种方法绘制线条，并返回我们可以绘制的最大连线数。
+ 注意：每次拼写时，chars 中的每个字母都只能用一次。
+
+ 返回词汇表 words 中你掌握的所有单词的 长度之和。
 
   
 
  示例 1：
 
-
-
- 输入：A = [1,4,2], B = [1,2,4]
- 输出：2
+ 输入：words = ["cat","bt","hat","tree"], chars = "atach"
+ 输出：6
  解释：
- 我们可以画出两条不交叉的线，如上图所示。
- 我们无法画出第三条不相交的直线，因为从 A[1]=4 到 B[2]=4 的直线将与从 A[2]=2 到 B[1]=2 的直线相交。
+ 可以形成字符串 "cat" 和 "hat"，所以答案是 3 + 3 = 6。
  示例 2：
 
- 输入：A = [2,5,1,2,5], B = [10,5,2,1,5,2]
- 输出：3
- 示例 3：
-
- 输入：A = [1,3,7,1,7,5], B = [1,9,2,5,1]
- 输出：2
+ 输入：words = ["hello","world","leetcode"], chars = "welldonehoneyr"
+ 输出：10
+ 解释：
+ 可以形成字符串 "hello" 和 "world"，所以答案是 5 + 5 = 10。
   
 
  提示：
 
- 1 <= A.length <= 500
- 1 <= B.length <= 500
- 1 <= A[i], B[i] <= 2000
+ 1 <= words.length <= 1000
+ 1 <= words[i].length, chars.length <= 100
+ 所有字符串中都仅包含小写英文字母
 
  */
-public class M1035 {
+public class M1160 {
 
     public static void main(String[] args) {
-        new M1035().maxUncrossedLines(new int[] {3,8,1,3,2,1,8,9,0}, new int[] {3,8,1,3,2,1,8,9,0});
+//        new M1160().maxUncrossedLines(new int[] {3,8,1,3,2,1,8,9,0}, new int[] {3,8,1,3,2,1,8,9,0});
     }
 
-    // 2020-2-18
-    public int maxUncrossedLines(int[] A, int[] B) {
-        int m = A.length, n = B.length;
-        int[][] dp = new int[m][n];
-
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (A[i] == B[j]) {
-                    dp[i][j] = (i==0 || j==0) ? 1 : dp[i-1][j-1] + 1;
-                } else {
-                    dp[i][j] = Math.max((i>0 ? dp[i-1][j] : 0), (j>0 ? dp[i][j-1] : 0));
-                }
-            }
+    // 2020-2-22
+    public int countCharacters(String[] words, String chars) {
+        int[] dp = new int[26];
+        for (char alpha : chars.toCharArray()) {
+            dp[alpha-'a']++;
         }
 
-        return dp[m-1][n-1];
+        int result = 0;
+        skip: for (int i = 0; i < words.length; i++) {
+            int[] counter = new int[26];
+            for (char alpha : words[i].toCharArray()) {
+                counter[alpha-'a']++;
+                if (counter[alpha-'a'] > dp[alpha-'a'])
+                    continue skip;
+            }
+            result += words[i].length();
+        }
+
+        return result;
     }
 
 }
