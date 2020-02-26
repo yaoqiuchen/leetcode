@@ -1,87 +1,58 @@
-package array;
+package string;
 
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
 
 /**
- 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+ 3. 无重复字符的最长子串
 
- 求在该柱状图中，能够勾勒出来的矩形的最大面积。
+ 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+
+ 示例 1:
+
+ 输入: "abcabcbb"
+ 输出: 3
+ 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+ 示例 2:
+
+ 输入: "bbbbb"
+ 输出: 1
+ 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+ 示例 3:
+
+ 输入: "pwwkew"
+ 输出: 3
+ 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+
  */
-public class D84 {
+public class M3 {
 
     public static void main(String[] args) {
-        new D84().largestRectangleArea(new int[] {1,2,4,9,9,8,9,10, 10});
+        new M3().lengthOfLongestSubstring("tmmzuxt");
     }
 
-    public int largestRectangleArea(int[] heights) {
-        if (heights.length <= 0) return 0;
-
-        int n = heights.length, max = heights[0];
-        Stack<Integer> stack = new Stack<>();
-        stack.push(0);
-
-        for (int i = 1; i <= n; i++) {
-            int curHeight = i == n ? -1 : heights[i];
-
-            while (!stack.isEmpty() && curHeight <= heights[stack.peek()]) {
-                int val = heights[stack.pop()];
-                int len = stack.isEmpty() ? i : i - stack.peek() - 1;
-                max = Math.max(max, val * len);
+    // 2/25
+    public int lengthOfLongestSubstring(String s) {
+        int result = 0;
+        Map<Integer, Integer> filter = new HashMap<>();
+        for (int i = 0, count = 0; i<s.length(); i++) {
+            int c = s.charAt(i);
+            Integer idx = filter.get(c);
+            if (idx != null) {
+                for (int j = idx; j >= i-count; j--) {
+                    filter.remove((int) s.charAt(j));
+                }
+                count = i - idx;
+                filter.put(c, i);
+            } else {
+                filter.put(c, i);
+                count++;
+                result = Math.max(result, count);
             }
-            stack.push(i);
-
-            // 1. 保证stack上方的元素永远是整个栈当中最大的！！！
-            // 2. 每次循环把所有大于当前数字的元素从Stack里通通弹出，那么stack中剩余元素都一定是小于当前元素的
-            // 3. 所有弹出的数字是依次递减的
-            //
-            // 计算面积，就可以转化为，当前弹出的元素value * 距离len，对于一个弹出的元素来说，
-            // 从它在stack里上一个元素到当前heights[i]之间的距离就是len，而在这段距离当中，heights[i]是最小的
-            //
         }
-        return max;
+
+        return result;
     }
 
-
-
-    public int largestRectangleArea_(int[] heights) {
-        if (heights.length <= 0) return 0;
-
-        int n = heights.length, max = heights[0];
-        Stack<Integer> stack = new Stack<>();
-        stack.push(0);
-
-        for (int i = 1; i <= n; i++) {
-            int curHeight = i == n ? -1 : heights[i];
-
-            while (!stack.isEmpty() && curHeight <= heights[stack.peek()]) {
-                int lowerHeight = heights[stack.pop()];
-                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
-                max = Math.max(max, width * lowerHeight);
-            }
-            stack.push(i);
-        }
-        return max;
-    }
-
-    // right answer but timeout
-    public int largestRectangleArea2(int[] heights) {
-        if (heights.length <= 0) return 0;
-
-        int n = heights.length;
-        int dp[][] = new int[heights.length][heights.length];
-
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
-            dp[i][i] = heights[i];
-            for (int j = i + 1; j < n; j++) {
-                    int factor = Math.min(dp[i][j-1], heights[j]);
-                    dp[i][j] = factor;
-                    max = Math.max(max, (j-i + 1) * factor);
-            }
-            max = Math.max(dp[i][i], max);
-        }
-        return max;
-    }
 
 }
