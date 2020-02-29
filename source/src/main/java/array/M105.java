@@ -28,7 +28,7 @@ import java.util.List;
 public class M105 {
 
     public static void main(String[] args) {
-        new M105().buildTree(new int[] {1,3,4},new int[] {1,3,4});
+        new M105().buildTree(new int[] {1,2},new int[] {2,1});
     }
 
     public class TreeNode {
@@ -41,8 +41,32 @@ public class M105 {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         if (preorder.length == 0) return null;
 
-        return DFS(preorder, inorder, 0, 0, inorder.length);
+        return DFS2(preorder, inorder, 0, 0, inorder.length);
     }
+
+    // i是前序开始的起点
+    // j是中序开始的起点
+    // length是子树长度
+    public TreeNode DFS2(int[] preorder, int[] inorder, int i, int j, int length) {
+        if (length == 0) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(preorder[i]);
+
+        int preOrderIdx = j;
+        while (inorder[preOrderIdx] != root.val) {
+            preOrderIdx++;
+        }
+        int newLength = preOrderIdx - j;
+
+        // 构造左子树
+        root.left = DFS2(preorder, inorder, i+1, j, newLength);
+        root.right = DFS2(preorder, inorder, i+1+newLength, j+newLength+1, length-newLength-1);
+
+        return root;
+    }
+
 
     /**
      *
