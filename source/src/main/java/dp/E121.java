@@ -21,7 +21,11 @@ package dp;
  */
 public class E121 {
 
-    // 2020-1-21
+    public static void main(String[] args) {
+        new E121().maxProfit(new int[] {7,1,5,3,6,4});
+    }
+
+    // 2/29
     public int maxProfit(int[] prices) {
         int max = 0, n = prices.length;
         if (n <= 1) return 0;
@@ -31,17 +35,36 @@ public class E121 {
 
         for (int i = 0; i < n; i++) {
             int price = prices[i];
-            if (i == 0) {
-                buy[i] = -price;
-            } else {
-                buy[i] = Math.max(buy[i-1], -price);
-                sell[i] = Math.max(sell[i-1], buy[i-1] + price);
-            }
-            max = Math.max(max, sell[i]);
+            buy[i] = (i==0) ? -price : Math.max(-price, buy[i-1]);
+            sell[i] = (i==0) ? 0 : buy[i-1]+price;
+            max = Math.max(sell[i], max);
         }
 
         return max;
     }
+
+
+    // 2020-1-21
+//    public int maxProfit(int[] prices) {
+//        int max = 0, n = prices.length;
+//        if (n <= 1) return 0;
+//
+//        int[] buy = new int[n];
+//        int[] sell = new int[n];
+//
+//        for (int i = 0; i < n; i++) {
+//            int price = prices[i];
+//            if (i == 0) {
+//                buy[i] = -price;
+//            } else {
+//                buy[i] = Math.max(buy[i-1], -price);
+//                sell[i] = Math.max(sell[i-1], buy[i-1] + price);
+//            }
+//            max = Math.max(max, sell[i]);
+//        }
+//
+//        return max;
+//    }
 
 
 //    public int maxProfit(int[] prices) {
