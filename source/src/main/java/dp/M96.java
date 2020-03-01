@@ -29,8 +29,33 @@ public class M96 {
         }
 
         int[] dp = new int[n];
-        return buildTree(1, n, dp);
+        return buildTree2(1, n, dp);
     }
+
+    // 3-1-20
+    public static int buildTree2(int start, int end, int[] dp) {
+        if (start > end) {
+            return 1;
+        }
+
+        if (dp[end-start] > 0) {
+            return dp[end-start];
+        }
+
+        int result = 0;
+        for (int i = start; i <= end; i++) {
+            int left = buildTree2(start, i-1, dp);
+            int right = buildTree2(i+1, end, dp);
+            result += left * right;
+        }
+        dp[end-start] = result;
+        return result;
+    }
+
+
+
+
+
 
     public static int buildTree(int start, int end, int[] dp) {
         if (start > end) {
