@@ -3,7 +3,7 @@ package array;
 import java.util.*;
 
 /**
- * 颜色分类
+ * 78 - 子集
  *
  给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
 
@@ -32,8 +32,33 @@ public class M78 {
         new M78().subsets(new int[] {1,2,3});
     }
 
-    // 2020-1-20
+    // 3-2-20
     public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(Arrays.asList());
+        for (int i : nums) {
+            List<List<Integer>> newCombination = _subsets(i, result);
+            result.addAll(newCombination);
+        }
+
+        return result;
+    }
+
+    public List<List<Integer>> _subsets(int val, List<List<Integer>> previous) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (List<Integer> arr : previous) {
+            List<Integer> copyOfArr = new ArrayList<>(arr);
+            copyOfArr.add(val);
+            result.add(copyOfArr);
+        }
+
+        return result;
+    }
+
+
+
+    // 2020-1-20
+    public List<List<Integer>> subsets3(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {

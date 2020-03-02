@@ -80,41 +80,41 @@ public class M79 {
 
 
     // 2020-1-20
-    public boolean exist2(char[][] board, String word) {
-        if (board.length == 0) return false;
-
-        int m = board.length, n = board[0].length;
-        if (m * n < word.length()) return false;
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                boolean[][] dp = new boolean[m][n];
-                if (exist2(board, i, j, word, 0, dp)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean exist2(char[][] board, int x, int y, String word, int start, boolean[][] dp) {
-        if (start == word.length()) return true;
-
-        if (x < 0 || y < 0 || x >= board.length || y >= board[0].length || dp[x][y]) {
-            return false;
-        }
-        if (board[x][y] == word.charAt(start)) {
-            dp[x][y] = true;
-            if (exist(board, x-1, y, word, start+1, dp) ||
-                    exist(board, x, y+1, word, start+1, dp) ||
-                    exist(board, x+1, y, word, start+1, dp) ||
-                    exist(board, x, y-1, word, start+1, dp)) {
-                return true;
-            }
-            dp[x][y] = false;
-        }
-        return false;
-    }
+//    public boolean exist2(char[][] board, String word) {
+//        if (board.length == 0) return false;
+//
+//        int m = board.length, n = board[0].length;
+//        if (m * n < word.length()) return false;
+//
+//        for (int i = 0; i < m; i++) {
+//            for (int j = 0; j < n; j++) {
+//                boolean[][] dp = new boolean[m][n];
+//                if (exist2(board, i, j, word, 0, dp)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public boolean exist2(char[][] board, int x, int y, String word, int start, boolean[][] dp) {
+//        if (start == word.length()) return true;
+//
+//        if (x < 0 || y < 0 || x >= board.length || y >= board[0].length || dp[x][y]) {
+//            return false;
+//        }
+//        if (board[x][y] == word.charAt(start)) {
+//            dp[x][y] = true;
+//            if (exist(board, x-1, y, word, start+1, dp) ||
+//                    exist(board, x, y+1, word, start+1, dp) ||
+//                    exist(board, x+1, y, word, start+1, dp) ||
+//                    exist(board, x, y-1, word, start+1, dp)) {
+//                return true;
+//            }
+//            dp[x][y] = false;
+//        }
+//        return false;
+//    }
 
 
 
