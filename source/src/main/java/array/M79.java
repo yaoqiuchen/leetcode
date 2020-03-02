@@ -35,8 +35,52 @@ public class M79 {
         new M79().exist(input, "ABKB");
     }
 
-    // 2020-1-20
+    // 3-2-20
     public boolean exist(char[][] board, String word) {
+        int m = board.length, n = board[0].length;
+        if (word == null || word.isEmpty()) {
+            return true;
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                boolean[][] dp = new boolean[m][n];
+                if (exist(board, word, 0, i, j, dp)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean exist(char[][] board, String word, int index, int i, int j, boolean[][] dp) {
+        if (index == word.length()) {
+            return true;
+        }
+
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || dp[i][j]) {
+            return false;
+        }
+
+        char val = word.charAt(index);
+        if (board[i][j] != val) {
+            return false;
+        }
+
+        dp[i][j] = true;
+        if (exist(board, word, index+1, i, j+1, dp)
+                || exist(board, word, index+1, i+1, j, dp)
+                || exist(board, word, index+1, i, j-1, dp)
+                || exist(board, word, index+1, i-1, j, dp)) {
+            return true;
+        }
+        dp[i][j] = false;
+        return false;
+    }
+
+
+    // 2020-1-20
+    public boolean exist2(char[][] board, String word) {
         if (board.length == 0) return false;
 
         int m = board.length, n = board[0].length;
@@ -45,7 +89,7 @@ public class M79 {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 boolean[][] dp = new boolean[m][n];
-                if (exist(board, i, j, word, 0, dp)) {
+                if (exist2(board, i, j, word, 0, dp)) {
                     return true;
                 }
             }
@@ -53,7 +97,7 @@ public class M79 {
         return false;
     }
 
-    public boolean exist(char[][] board, int x, int y, String word, int start, boolean[][] dp) {
+    public boolean exist2(char[][] board, int x, int y, String word, int start, boolean[][] dp) {
         if (start == word.length()) return true;
 
         if (x < 0 || y < 0 || x >= board.length || y >= board[0].length || dp[x][y]) {
