@@ -14,7 +14,31 @@ public class D84 {
         new D84().largestRectangleArea(new int[] {1,2,4,9,9,8,9,10, 10});
     }
 
+    // 3-2-20
     public int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) {
+            return 0;
+        }
+
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+
+        int max = heights[0];
+        for (int i = 1; i <= heights.length; i++) {
+            int h = (i == heights.length) ? -1 : heights[i];
+
+            while (!stack.isEmpty() && heights[stack.peek()] >= h) {
+                int height = heights[stack.pop()];
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                max = Math.max(max, height * width);
+            }
+            stack.push(i);
+        }
+
+        return max;
+    }
+
+    public int largestRectangleArea3(int[] heights) {
         if (heights.length <= 0) return 0;
 
         int n = heights.length, max = heights[0];
