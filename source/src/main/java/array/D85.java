@@ -13,6 +13,8 @@ import java.util.Stack;
  ]
  输出: 6
 
+ 1 2 3 x x 4
+
  来源：力扣（LeetCode）
  链接：https://leetcode-cn.com/problems/maximal-rectangle
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
@@ -20,11 +22,49 @@ import java.util.Stack;
 public class D85 {
 
     public static void main(String[] args) {
-        new D85().maximalRectangle(new char[][] {{'1','1'}});
+        new D85().maximalRectangle(new char[][] {{'1','1','1','0'},
+                {'1','0','1','1'}});
     }
 
-    // 2020-1-20
+    // 3-2-20
     public int maximalRectangle(char[][] matrix) {
+        int max = 0;
+        if (matrix == null || matrix.length == 0) {
+            return max;
+        }
+
+        int[] dp = new int[matrix[0].length];
+        for (char[] line : matrix) {
+            for (int i = 0; i < line.length; i++) {
+                if (line[i] == '1') {
+                    dp[i]++;
+                } else {
+                    dp[i] = 0;
+                }
+            }
+
+            Stack<Integer> stack = new Stack<>();
+            stack.push(0);
+            int area = dp[0];
+            for (int i = 1; i <= dp.length; i++) {
+                int height = i == dp.length ? -1 : dp[i];
+
+                // 单调递减栈
+                while (!stack.isEmpty() && dp[stack.peek()] >= height) {
+                    int idx = stack.pop();
+                    int h = dp[idx];
+                    int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                    max = Math.max(max, h * width);
+                }
+                stack.push(i);
+            }
+        }
+        return max;
+    }
+
+
+    // 2020-1-20
+    public int maximalRectangle2(char[][] matrix) {
         if (matrix.length == 0) return 0;
 
         int m = matrix.length, n = matrix[0].length, max = 0;
