@@ -1,8 +1,5 @@
 package search;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 69. x 的平方根
  *
@@ -27,10 +24,10 @@ import java.util.List;
  链接：https://leetcode-cn.com/problems/sqrtx
  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class M69 {
+public class E69 {
 
     public static void main(String[] args) {
-        new M69().mySqrt(4);
+        new E69().mySqrt(4);
     }
 
 
