@@ -34,7 +34,7 @@ package linkedlist;
 public class M142 {
 
     public static void main(String[] args) {
-        new M142().mergeKLists(null);
+//        new M142().mergeKLists(null);
     }
 
     // 3/12
