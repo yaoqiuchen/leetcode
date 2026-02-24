@@ -31,6 +31,21 @@ public class M3 {
         new M3().lengthOfLongestSubstring("tmmzuxt");
     }
 
+    // 2026/2/24
+    public int lengthOfLongestSubstring2(String s) {
+        Map<Character, Integer> locator = new HashMap<>();
+
+        int ans = 0;
+        for (int i=0, len=0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            len = locator.containsKey(c) ? Math.min(i-locator.get(c), len+1) : len + 1;
+            locator.put(c, i);
+            ans = Math.max(ans, len);
+        }
+
+        return ans;
+    }
+
     // 2/25
     public int lengthOfLongestSubstring(String s) {
         int result = 0;

@@ -21,7 +21,7 @@ public class M2 {
         while (l1 != null || l2 != null) {
             int sum = (l1 == null ? 0 : l1.val) + (l2 == null ? 0 : l2.val) + (proceed ? 1 : 0);
             proceed = sum > 9;
-            
+
             l1 = l1 == null ? null : l1.next;
             l2 = l2 == null ? null : l2.next;
 
