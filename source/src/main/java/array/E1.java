@@ -1,6 +1,6 @@
 package array;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  Given an array of integers, return indices of the two numbers such that they add up to a specific
@@ -17,6 +17,34 @@ import java.util.Arrays;
  return [0, 1].
  */
 public class E1 {
+
+    // 2026/2/24
+    public int[] twoSum3(int[] nums, int target) {
+        Map<Integer, List<Integer>> locator = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            List<Integer> list = locator.getOrDefault(nums[i], new ArrayList<>());
+            list.add(i);
+            locator.put(nums[i], list);
+        }
+
+        Arrays.sort(nums);
+
+        int l = 0, r = nums.length-1;
+        while (l <= r) {
+            int sum = nums[l] + nums[r];
+            if (sum == target) {
+                break;
+            }
+            if (sum < target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        int lIdx = locator.get(nums[l]).get(0);
+        int rIdx = locator.get(nums[r]).get(nums[l] == nums[r] ? 1 : 0);
+        return new int[] {lIdx, rIdx};
+    }
 
     // 2020/1/17
     public int[] twoSum2(int[] nums, int target) {
