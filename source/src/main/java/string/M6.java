@@ -1,5 +1,7 @@
 package string;
 
+import com.sun.org.apache.xpath.internal.objects.XNumber;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +41,35 @@ public class M6 {
     public static void main(String[] args) {
         new M6().convert("LEETCODEISHIRING", 4);
 //        new M6().lengthOfLongestSubstring("tmmzuxt");
+    }
+
+    // 2020/3/9
+    public String convert2(String s, int numRows) {
+        int len = s.length();
+        if (numRows >= len) {
+            return s;
+        }
+
+        StringBuilder res = new StringBuilder();
+        int between = numRows == 1 ? 1 : numRows * 2 - 2;
+        for (int i = 1; i <= numRows; i++) {
+            int skip1 = between - (i-1)*2;
+            int skip2 = between - skip1;
+
+            int j = i-1;
+            boolean down = true;
+            while (j < s.length()) {
+                res.append(s.charAt(j));
+                if (i == 1 || i == numRows) {
+                    j += between;
+                    continue;
+                }
+                j += down ? skip1 : skip2;
+                down = !down;
+            }
+        }
+
+        return res.toString();
     }
 
     // 3-2-20
