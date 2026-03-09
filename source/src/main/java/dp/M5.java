@@ -19,6 +19,30 @@ package dp;
  */
 public class M5 {
 
+    public static String longestPalindrome2(String s) {
+        int len = s.length();
+        //dp[n][m] means if s.substring(n, m) is a palindromic string
+        boolean[][] dp = new boolean[len][len];
+
+        int maxLen = 1;
+        String res = s.substring(0, 1);
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = true;
+            for (int j = i-1; j >= 0; j--) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[j][i] = i == j+1 ? true : dp[j+1][i-1];
+                    if (dp[j][i] && i-j+1 > maxLen) {
+                        maxLen = i-j+1;
+                        res = s.substring(j, i+1);
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+
     public static String longestPalindrome(String s) {
         if (s.length() == 0) {
             return "";
