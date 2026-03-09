@@ -3,7 +3,7 @@ package array;
 import java.util.Arrays;
 
 /**
-4.寻找两个有序数组的中位数
+ 4.寻找两个有序数组的中位数
 
  给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
 
@@ -28,7 +28,49 @@ import java.util.Arrays;
 public class D4 {
 
     public static void main(String[] args) {
-        new D4().findMedianSortedArrays(new int[] {1,3}, new int[] {2});
+        new D4().findMedianSortedArrays2(new int[] {3,4}, new int[] {});
+    }
+
+    // 2026/3/9
+    public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+
+        int nLen = nums1.length, mLen = nums2.length, len = nLen + mLen;
+        boolean avgTwo = len % 2 == 0;
+        int mediumIdx = (len-1)/2;
+
+        int idx1 = 0, idx2 = 0;
+        while (idx1 < nLen || idx2 < mLen) {
+            double sum = 0;
+            if (idx1 == nLen) {
+                sum = nums2[idx2];
+                idx2++;
+            } else if (idx2 == mLen) {
+                sum = nums1[idx1];
+                idx1++;
+            } else {
+                sum = Math.min(nums1[idx1], nums2[idx2]);
+                if (sum == nums1[idx1]) idx1++;
+                else idx2++;
+            }
+
+            if (mediumIdx == idx1 + idx2 - 1) {
+                if (avgTwo) {
+                    if (idx1 == nLen) {
+                        sum += nums2[idx2];
+                    } else if (idx2 == mLen) {
+                        sum += nums1[idx1];
+                    } else {
+                        sum = Math.min(nums1[idx1], nums2[idx2]);
+                    }
+                    return sum / 2;
+                }
+                return sum;
+            }
+
+            continue;
+        }
+
+        return 1;
     }
 
     // 3/10
