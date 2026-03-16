@@ -20,7 +20,27 @@ package array;
  输出: 49
 
  */
-public class E11 {
+public class M11 {
+
+    //2026/3/16
+    public int maxArea3(int[] height) {
+        int max = 0, left = 0, right = height.length - 1;
+        if (height.length <= 1) {
+            return 0;
+        }
+
+        while (left < right && right < height.length) {
+            int vol = (right-left) * Math.min(height[left], height[right]);
+            max = Math.max(vol, max);
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return max;
+    }
 
     public int maxArea(int[] height) {
         int i = 0, j = height.length - 1;
