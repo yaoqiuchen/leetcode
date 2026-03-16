@@ -29,6 +29,22 @@ public class E9 {
 //        new E176().getPermutation(3, 4);
     }
 
+    // 2026/3/16
+    public boolean isPalindrome2(int x) {
+        if (x == 0) {
+            return true;
+        }
+
+        String str = String.valueOf(x);
+
+        for (int i = 0, j = str.length()-1; i < j; i++,j--) {
+            if (str.charAt(i) != str.charAt(j)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     // 3-11
     public boolean isPalindrome(int x) {// 特殊情况：
