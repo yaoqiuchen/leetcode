@@ -1,8 +1,5 @@
 package string;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  8. 字符串转换整数 (atoi)
 
@@ -54,8 +51,97 @@ import java.util.Map;
 public class M8 {
 
     public static void main(String[] args) {
-        new M8().myAtoi("tmmzuxt");
+        new M8().myAtoi2("+1095502006p8");
     }
+
+    // 2026/3/16 - 人工出品
+    public int myAtoi2(String str) {
+        if (str.isEmpty() || str.trim().isEmpty()) {
+            return 0;
+        }
+        StringBuilder res = new StringBuilder();
+        str = str.trim();
+
+        boolean isNegative = str.charAt(0) == '-';
+        if (isNegative || str.charAt(0) == '+') {
+            str = str.substring(1);
+        }
+
+        int cut = 0;
+        boolean started = false;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '0' && !started && (i == 0 || str.charAt(i-1) == '0')) {
+                cut++;
+            } else {
+                break;
+            }
+        }
+        str = str.substring(cut);
+
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c > '9' || c < '0') {
+                break;
+            }
+            res.append(c);
+        }
+
+        System.out.println(res.toString());
+        String min = (Integer.MIN_VALUE + "").substring(1);
+        String max = Integer.MAX_VALUE + "";
+
+        if (res.length() > min.length()) {
+            return isNegative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        }
+
+        if (res.length() == min.length()) {
+            for (int i = 0; i < res.length(); i++) {
+                char compare = isNegative ? min.charAt(i) : max.charAt(i);
+                if (res.charAt(i) < compare) {
+                    break;
+                }
+                if (res.charAt(i) > compare) {
+                    return isNegative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                }
+            }
+        }
+
+        if (isNegative && res.length() > 0) {
+            res.insert(0, "-");
+        }
+
+        return res.length() == 0 ? 0 : Integer.parseInt(res.toString());
+    }
+
+    // 2026/3/16 - AI出品，确实优雅
+    public int myAtoi3(String str) {
+        int i = 0, n = str.length();
+
+        // 跳过前导空格
+        while (i < n && str.charAt(i) == ' ') i++;
+        if (i == n) return 0;
+
+        // 读取符号
+        int sign = 1;
+        if (str.charAt(i) == '+' || str.charAt(i) == '-') {
+            if (str.charAt(i) == '-') sign = -1;
+            i++;
+        }
+
+        // 读取数字，乘10前预判溢出（MAX/10=214748364，末位7/8）
+        int result = 0;
+        final int LIMIT = Integer.MAX_VALUE / 10;
+        while (i < n && Character.isDigit(str.charAt(i))) {
+            int digit = str.charAt(i++) - '0';
+            if (result > LIMIT || (result == LIMIT && digit > 7)) {
+                return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+            result = result * 10 + digit;
+        }
+
+        return result * sign;
+    }
+
 
     // 2/25
     public int myAtoi(String str) {
@@ -84,7 +170,7 @@ public class M8 {
                     isNegative = val == '-';
                     continue;
                 }
-                if (val == ' ' && isNegative != null || val != ' ') {
+                if (val != ' ' || isNegative != null) {
                     break;
                 }
             }
@@ -94,7 +180,7 @@ public class M8 {
             return 0;
         }
 
-        isNegative = isNegative == null ? false : isNegative;
+        isNegative = isNegative != null && isNegative;
         String convertedNumber = number.toString().replaceAll("^0+", "");
         if (convertedNumber == null || convertedNumber.length() == 0) {
             return 0;
@@ -109,7 +195,7 @@ public class M8 {
         } else if (!isNegative && converted > Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
         } else {
-            return new Integer(isNegative ? "-" + convertedNumber : convertedNumber);
+            return Integer.valueOf(isNegative ? "-" + convertedNumber : convertedNumber);
         }
     }
 
