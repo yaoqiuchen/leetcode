@@ -31,6 +31,36 @@ public class M17 {
             {'m','n','o'}, {'p','q','r','s'},{'t','u','v'},{'w','x','y','z'}
     };
 
+    // 2026/3/17
+    public List<String> letterCombinations2(String digits) {
+        return dfs(new ArrayList<>(), digits, 0);
+    }
+
+    public List<String> dfs(List<String> prefix, String digits, int idx) {
+        if (idx == digits.length()) {
+            return prefix;
+        }
+
+        List<String> res = new ArrayList<>();
+        char digit = digits.charAt(idx);
+        char[] cs = mappings[digit-'2'];
+
+        if (prefix.isEmpty()) {
+            prefix.add("");
+        }
+
+        for (String str : prefix) {
+            for (char c : cs) {
+                res.add(str + c);
+            }
+        }
+
+        return dfs(res, digits, idx+1);
+    }
+
+
+
+
     // 3-4-20
     public List<String> letterCombinations(String digits) {
         List<String> result = new ArrayList<>();
