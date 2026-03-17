@@ -23,6 +23,37 @@ public class M16 {
         new M16().threeSumClosest(new int[] {-3, 0, 1, 2}, 1);
     }
 
+    //2026/3/17
+    public int threeSumClosest3(int[] nums, int target) {
+        int res = nums[0] + nums[1] + nums[2];
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i-1]) {
+                continue;
+            }
+
+            int l = i+1, r = nums.length-1;
+            while (l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+
+                if (Math.abs(res - target) > Math.abs(sum - target)) {
+                    res = sum;
+                }
+
+                if (sum == target) {
+                    return res;
+                } else if (sum < target) {
+                    l++;
+                } else {
+                    r--;
+                }
+            }
+        }
+        return res;
+    }
+
+
     // 转化为2数之和
     public int threeSumClosest(int[] nums, int target) {
         if (nums.length < 3) return 0;
