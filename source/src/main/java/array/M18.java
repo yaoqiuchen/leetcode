@@ -1,5 +1,6 @@
 package array;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +32,64 @@ import java.util.List;
 public class M18 {
 
     public static void main(String[] args) {
-        new M18().fourSum(new int[] {1,0,-1,0,-2,2}, 0);
+        new M18().fourSum3(new int[] {-4,2,2,1,-5,5}, 1);
     }
+
+    // 2026/3/17
+    public List<List<Integer>> fourSum3(int[] nums, int target) {
+        Arrays.sort(nums);
+        return dfs(new ArrayList<>(), nums, 0, BigDecimal.valueOf(target), 4);
+    }
+
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> dfs(List<Integer> input, int[] nums, int start, BigDecimal target, int count) {
+        if (count == 0) {
+            return res;
+        }
+
+        if (count == 2) {
+            int l = start, r = nums.length-1;
+            while (l < r) {
+                if (l > start+1 && nums[l] == nums[l-1]) {
+                    l++;
+                    continue;
+                }
+                if (r < nums.length-1 && nums[r] == nums[r+1]) {
+                    r--;
+                    continue;
+                }
+
+                BigDecimal sum = new BigDecimal(nums[l]).add(new BigDecimal(nums[r]));
+                if (sum.compareTo(target) == 0) {
+                    List<Integer> newEle = new ArrayList<>(input);
+                    newEle.addAll(Arrays.asList(nums[l], nums[r]));
+                    res.add(newEle);
+                    l++;
+                    r--;
+                    continue;
+                }
+                if (sum.compareTo(target) < 0) l++;
+                else r--;
+            }
+            // 核心计算逻辑
+            return res;
+        }
+
+        for (int i = start; i < nums.length-count+1; i++) {
+            // 去除重复
+            if (i > start && nums[i] == nums[i-1]) {
+                continue;
+            }
+            int sum = nums[i];
+
+            input.add(sum);
+            dfs(input, nums, i+1, target.add(new BigDecimal(sum).negate()), count-1);
+            input.remove(input.size()-1);
+        }
+
+        return res;
+    }
+
 
     // 2020/1/18
     public List<List<Integer>> fourSum(int[] nums, int target) {
