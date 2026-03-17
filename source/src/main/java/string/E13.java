@@ -46,11 +46,31 @@ package string;
  解释: M = 1000, CM = 900, XC = 90, IV = 4.
 
  */
-public class M13 {
+public class E13 {
 
     public static void main(String[] args) {
-        new M13().intToRoman(124);
+        new E13().intToRoman(124);
 //        new M6().lengthOfLongestSubstring("tmmzuxt");
+    }
+
+    // 2026/3/17
+    public int romanToInt2(String s) {
+        String[] romaLetters = new String[] {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int[] nums = new int[] {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+
+        int sum = 0;
+        for (int i = 0; i < romaLetters.length; i++) {
+            while (!s.isEmpty()) {
+                String letter = romaLetters[i];
+                if (s.startsWith(letter)) {
+                    sum += nums[i];
+                    s = s.substring(letter.length());
+                    continue;
+                }
+                break;
+            }
+        }
+        return sum;
     }
 
     // 3-4-20
