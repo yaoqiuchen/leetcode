@@ -24,6 +24,30 @@ public class E14 {
     }
 
     // 3-4-20
+    public String longestCommonPrefix2(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+
+        StringBuilder res = new StringBuilder();
+        int idx = 0;
+        while (true) {
+            if (idx == strs[0].length()) {
+                return res.toString();
+            }
+            char c = strs[0].charAt(idx);
+            for (String s : strs) {
+                if (idx == s.length() || c != s.charAt(idx)) {
+                    return res.toString();
+                }
+            }
+            res.append(c);
+            idx++;
+        }
+    }
+
+
+    // 3-4-20
     public String longestCommonPrefix(String[] strs) {
         if (strs == null || strs.length == 0) {
             return "";
