@@ -1,9 +1,6 @@
 package string;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
 20 有效的括号
@@ -43,6 +40,32 @@ public class E20 {
     public static void main(String[] args) {
         new E20().isValid("");
 //        new M6().lengthOfLongestSubstring("tmmzuxt");
+    }
+
+    // 2026/3/18
+    public boolean isValid2(String s) {
+        int len = s.length();
+        if (len % 2 == 1) {
+            return false;
+        }
+
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+                continue;
+            }
+
+            if (stack.isEmpty()) {
+                return false;
+            }
+            char c2 = stack.pop();
+            if (c == '}' && c2 != '{' || c == ']' && c2 != '[' || c == ')' && c2 != '(') {
+                return false;
+            }
+        }
+
+        return stack.isEmpty();
     }
 
     // 3-5-20
