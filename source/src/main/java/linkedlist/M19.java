@@ -24,6 +24,25 @@ public class M19 {
         new M19().removeNthFromEnd(null, 2);
     }
 
+    //2026/3/17
+    public ListNode removeNthFromEnd3(ListNode head, int n) {
+        ListNode lead = new ListNode();
+        lead.next = head;
+        ListNode fast = lead, slow = lead;
+        while (n-- > 0) {
+            fast = fast.next;
+        }
+
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        slow.next = slow.next.next;
+
+        return lead.next;
+    }
+
     // 2/25
     public ListNode removeNthFromEnd(ListNode head, int n) {
         if (head == null) {
