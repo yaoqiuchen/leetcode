@@ -17,6 +17,20 @@ package array;
  */
 public class E26 {
 
+    // 2026/4/13
+    public int removeDuplicates3(int[] nums) {
+        int idx = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i-1]) {
+                continue;
+            }
+            nums[idx++] = nums[i];
+        }
+
+        return idx;
+    }
+
+
     public int removeDuplicates(int[] nums) {
         if (nums.length <= 1) return nums.length;
 
