@@ -22,6 +22,40 @@ public class M31 {
 
     }
 
+
+    // 2026/4/16
+    public void nextPermutation3(int[] nums) {
+        // 1 2 4 5 5 4 3 = 12453
+        // 1
+
+        // find the position of swapping
+        for (int i = nums.length-1; i > 0; i--) {
+            if (nums[i] > nums[i-1]) {
+                int minIdx = i;
+
+                for (int j = i; j < nums.length; j++) {
+                    int val = nums[j];
+                    if (val > nums[i-1] && val <= nums[minIdx]) {
+                        minIdx = j;
+                    }
+                }
+
+                int val = nums[i-1];
+                nums[i-1] = nums[minIdx];
+                nums[minIdx] = val;
+
+                Arrays.sort(nums, i, nums.length);
+                return;
+            }
+        }
+        // nums is in descending order
+        Arrays.sort(nums);
+    }
+
+
+
+
+
     public static void nextPermutation(int[] nums) {
         if (nums.length <= 1) return;
 
